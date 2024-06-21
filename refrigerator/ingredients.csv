@@ -1,0 +1,82 @@
+Product Name,Calories,Protein,Fat,Carbohydrates,MeasurementUnit,Consumable,Category,image_path
+Apple,52,0.3,0.2,14,USE_QUANTITY,true,VegetableFruit,src\photos\Apple.png          
+Butter,717,0.9,81,0.1,USE_GRAMS,true,Dairy,src\photos\Butter.png
+Milk,42,3.4,1.0,5,USE_LITER,true,Dairy,src\photos\milk.png
+Egg,155,13,11,1.1,USE_QUANTITY,true,Dry Food,src\photos\Egg.png
+Rice,130,2.4,0.2,28,USE_GRAMS,true,Dry Food,src\photos\Rice.png
+Banana,89,1.1,0.3,23,USE_QUANTITY,true,VegetableFruit,src\photos\Banana.png
+Chicken Breast,165,31,3.6,0,USE_GRAMS,true,Meat,src\photos\ChickenBreast.png
+Salmon,208,20,13,0,USE_GRAMS,true,Meat,src\photos\Salmon.png
+Tea,1,0,0,0,USE_QUANTITY,false,Dry Food,src\photos\Tea.png
+Carrot,41,0.9,0.2,10,USE_QUANTITY,true,VegetableFruit,src\photos\Carrot.png
+Cheddar Cheese,402,25,33,1.3,USE_GRAMS,true,Dairy,src\photos\Cheddar_Cheese.png
+Broccoli,55,3.7,0.6,11,USE_QUANTITY,true,VegetableFruit,src\photos\Broccoli.png
+Almonds,576,21,49,22,USE_GRAMS,true,Dry Food,src\photos\Almonds.png
+Beef Steak,271,25,19,0,USE_GRAMS,true,Meat,src\photos\Beef_Steak.png
+Yogurt,59,10,0.4,4.7,USE_GRAMS,true,Dairy,src\photos\Yogurt.png
+Mozzarella,280,28,17,3,USE_GRAMS,true,Dairy,src\photos\Mozzarella.png
+Potato,77,2,0.1,17,USE_QUANTITY,true,VegetableFruit,src\photos\Potato.png
+Walnuts,654,15,65,14,USE_GRAMS,true,Dry Food,src\photos\Walnuts.png
+Strawberry,32,0.7,0.3,7.7,USE_QUANTITY,true,VegetableFruit,src\photos\Strawberry.png
+Cottage Cheese,98,11,4.3,3.4,USE_GRAMS,true,Dairy,src\photos\Cottage_Cheese.png
+Cucumber,16,0.7,0.1,3.6,USE_QUANTITY,true,VegetableFruit,src\photos\Cucumber.png
+Pineapple,50,0.5,0.1,13,USE_QUANTITY,true,VegetableFruit,src\photos\Pineapple.png
+Duck Breast,337,23,28,0,USE_GRAMS,true,Meat,src\photos\Duck_Breast.png
+Tomato,18,0.9,0.2,3.9,USE_QUANTITY,true,VegetableFruit,src\photos\Tomato.png
+Avocado,160,2,15,9,USE_QUANTITY,true,VegetableFruit,src\photos\Avocado.png
+Feta Cheese,264,14,21,4.1,USE_GRAMS,true,Dairy,src\photos\Feta_Cheese.png
+Bell Pepper,31,1,0.3,6,USE_QUANTITY,true,VegetableFruit,src\photos\Bell_Pepper.png
+Peanut Butter,588,25,50,20,USE_GRAMS,true,Dry Food,src\photos\Peanut_Butter.png
+Grapes,69,0.7,0.2,18,USE_QUANTITY,true,VegetableFruit,src\photos\Grapes.png
+Parmesan,431,38,29,4,USE_GRAMS,true,Dairy,src\photos\Parmesan.png
+Lettuce,15,1.4,0.2,2.9,USE_QUANTITY,true,VegetableFruit,src\photos\Lettuce.png
+Tuna,132,29,1,0,USE_GRAMS,true,Dry Food,src\photos\Tuna.png
+Black Beans,132,8.9,0.5,23,USE_GRAMS,true,Dry Food,src\photos\Black_Beans.png
+Pear,57,0.4,0.1,15,USE_QUANTITY,true,VegetableFruit,src\photos\Pear.png
+Pistachios,562,20,45,28,USE_GRAMS,true,Dry Food,src\photos\Pistachios.png
+Denis,305,19,25,0,USE_GRAMS,true,Meat,src\photos\Denis.png
+Peach,39,0.9,0.3,10,USE_QUANTITY,true,VegetableFruit,src\photos\Peach.png
+Sausage,301,12,26,1.9,USE_GRAMS,true,Meat,src\photos\Sausage.png
+Sunflower Seeds,584,20,51,20,USE_GRAMS,true,Dry Food,src\photos\Sunflower_Seeds.png
+Sardines,208,25,11,0,USE_GRAMS,true,Dry Food,src\photos\Sardines.png
+Watermelon,30,0.6,0.2,8,USE_QUANTITY,true,VegetableFruit,src\photos\Watermelon.png
+Mango,60,0.8,0.4,15,USE_QUANTITY,true,VegetableFruit,src\photos\Mango.png
+Cream Cheese,342,6,34,4.1,USE_GRAMS,true,Dairy,src\photos\Cream_Cheese.png
+Celery,16,0.7,0.2,3,USE_QUANTITY,true,VegetableFruit,src\photos\Celery.png
+Pumpkin Seeds,559,30,49,11,USE_GRAMS,true,Dry Food,src\photos\Pumpkin_Seeds.png
+Cherries,50,1,0.3,12,USE_QUANTITY,true,VegetableFruit,src\photos\Cherries.png
+Liver,135,22,4,3.8,USE_GRAMS,true,Meat,src\photos\Liver.png
+Green Beans,31,1.8,0.2,7,USE_QUANTITY,true,VegetableFruit,src\photos\Green_Beans.png
+Coffee,2,0.1,0,0,USE_GRAMS,false,Dry Food,src\photos\Coffee.png
+Quinoa,120,4.1,1.9,21,USE_GRAMS,true,Dry Food,src\photos\Quinoa.png
+Blueberries,57,0.7,0.3,14,USE_QUANTITY,true,VegetableFruit,src\photos\Blueberries.png
+Dark Chocolate,546,4.9,31,61,USE_GRAMS,true,Dry Food,src\photos\Dark_Chocolate.png
+Chia Seeds,486,16,31,42,USE_GRAMS,true,Dry Food,src\photos\Chia_Seeds.png
+Granola,471,10,20,64,USE_GRAMS,true,Dry Food,src\photos\Granola.png
+Spinach,23,2.9,0.4,3.6,USE_QUANTITY,true,VegetableFruit,src\photos\Spinach.png
+Couscous,376,12,0.6,77,USE_GRAMS,true,Dry Food,src\photos\Couscous.png
+Turkey Breast,135,30,1,0,USE_GRAMS,true,Meat,src\photos\Turkey_Breast.png
+Bulgur,342,12.3,1.3,76,USE_GRAMS,true,Dry Food,src\photos\Bulgur.png
+Raspberries,52,1.2,0.7,12,USE_QUANTITY,true,VegetableFruit,src\photos\Raspberries.png
+Coconut Milk,230,2.3,24,6,USE_LITER,true,Dry Food,src\photos\Coconut_Milk.png
+Brown Rice,123,2.7,0.9,25.6,USE_GRAMS,true,Dry Food,src\photos\Brown_Rice.png
+Pomegranate,83,1.7,1.2,19,USE_QUANTITY,true,VegetableFruit,src\photos\Pomegranate.png
+Tortilla,218,5,2.7,42,USE_QUANTITY,true,Dry Food,src\photos\Tortilla.png
+Mushrooms,22,3.1,0.3,3.3,USE_QUANTITY,true,VegetableFruit,src\photos\Mushrooms.png
+Kale,49,4.3,0.9,8.8,USE_QUANTITY,true,VegetableFruit,src\photos\Kale.png
+Apricots,48,1.4,0.4,11,USE_QUANTITY,true,VegetableFruit,src\photos\Apricots.png
+Schnitzel,240,22,12,10,USE_GRAMS,true,Meat,src\photos\Schnitzel.png
+Entrecote,250,20,18,0,USE_GRAMS,true,Meat,src\photos\Entrecote.png
+Chicken Thighs,210,17,15,0,USE_GRAMS,true,Meat,src\photos\Chicken_Thighs.png
+Water,0,0,0,0,USE_LITER,true,Dry Food,src\photos\Water.png
+Coca Cola,42,0,0,11,USE_LITER,true,Dry Food,src\photos\Coca_Cola.png
+Sprite,40,0,0,10,USE_LITER,true,Dry Food,src\photos\Sprite.png
+Orange Juice,45,1,0,10,USE_LITER,true,Dry Food,src\photos\Orange_Juice.png
+Apple Juice,46,0,0,12,USE_LITER,true,Dry Food,src\photos\Apple_Juice.png
+Fuze Tea,30,0,0,7,USE_LITER,true,Dry Food,src\photos\Fuze_Tea.png
+Sirloin,250,26,15,0,USE_GRAMS,true,Meat,src\photos\Sirloin.png
+Chicken Drumsticks,160,18,9,0,USE_GRAMS,true,Meat,src\photos\Chicken_Drumsticks.png
+Ground Beef,250,17,20,0,USE_GRAMS,true,Meat,src\photos\Ground_Beef.png
+Pasta,131,5,1,25,USE_GRAMS,true,Dry Food,src\photos\Pasta.png
+Shawarma,300,25,20,5,USE_GRAMS,true,Meat,src\photos\Shawarma.png
+Chicken Hearts,185,17,13,0,USE_GRAMS,true,Meat,src\photos\Chicken_Hearts.png

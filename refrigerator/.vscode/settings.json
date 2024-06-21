@@ -1,0 +1,8 @@
+{
+    "java.project.sourcePaths": ["src"],
+    "java.project.outputPath": "bin",
+    "java.project.referencedLibraries": [
+        "lib/**/*.jar",
+        "c:\\Users\\pazsn\\.vscode\\extensions\\vscjava.vscode-maven-0.44.0\\resources\\maven-wrapper\\.mvn\\wrapper\\maven-wrapper.jar"
+    ]
+}
