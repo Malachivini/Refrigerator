@@ -15,6 +15,8 @@ public class Refrigerator extends JFrame {
     private JPanel mainPanel; // Main panel to display product information
     private JLabel nutritionalSummaryLabel; // Label to display nutritional summary
     private Date date = new Date(17, 10, 2024); // Set the date to 17/10/2024
+    private Map<String, BufferedImage> imageCache = new HashMap<>(); // Cache for product images
+    private Map<String, ImageIcon> scaledImageCache = new HashMap<>(); // Cache for scaled product images
 
     // Constructor to initialize the Refrigerator application
     public Refrigerator() {
@@ -26,6 +28,9 @@ public class Refrigerator extends JFrame {
         setSize(1100, 1000); // Set the size of the application window
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Set the default close operation
         setLayout(new BorderLayout()); // Set the layout to BorderLayout
+
+        // Load all images into cache
+        loadImagesToCache();
 
         // Create and configure the left door panel
         JPanel leftDoorPanel = new JPanel() {
@@ -126,8 +131,7 @@ public class Refrigerator extends JFrame {
 
     // Method to create a button with the specified text
     private JButton createButton(String text) {
-        JButton button = new JButton(text);
-        return button;
+        return new JButton(text);
     }
 
     // Method to load door images from the specified file path
@@ -153,18 +157,36 @@ public class Refrigerator extends JFrame {
                 String[] values = line.split(",");
                 String name = values[0];
                 String[] dateParts = values[1].split("\\.");
-                Integer day = Integer.parseInt(dateParts[0]);
-                Integer month = Integer.parseInt(dateParts[1]);
-                Integer year = Integer.parseInt(dateParts[2]);
+                int day = Integer.parseInt(dateParts[0]);
+                int month = Integer.parseInt(dateParts[1]);
+                int year = Integer.parseInt(dateParts[2]);
                 Date date = new Date(day, month, year);
                 double price = Double.parseDouble(values[2]);
-                Integer amount = Integer.parseInt(values[3]);
+                int amount = Integer.parseInt(values[3]);
 
                 Product product = new Product(name, nutrientValuesMap.get(name), date, price, amount); // Create a new product
                 products.add(product); // Add the product to the list
             }
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    // Method to load all product images into cache
+    private void loadImagesToCache() {
+        for (Product product : products) {
+            if (product.image() != null && !product.image().isEmpty()) {
+                try {
+                    BufferedImage image = ImageIO.read(new File(product.image()));
+                    imageCache.put(product.image(), image); // Save the image in the cache
+
+                    // Create and cache scaled image
+                    Image scaledImage = image.getScaledInstance(100, 100, Image.SCALE_SMOOTH);
+                    scaledImageCache.put(product.image(), new ImageIcon(scaledImage));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
         }
     }
 
@@ -181,15 +203,12 @@ public class Refrigerator extends JFrame {
                 productPanel.setLayout(new BorderLayout());
                 productPanel.setBackground(Color.WHITE); // Set background color to white
 
-                // Add product image if available
+                // Add product image if available in cache
                 if (product.image() != null && !product.image().isEmpty()) {
-                    try {
-                        BufferedImage image = ImageIO.read(new File(product.image()));
-                        Image scaledImage = image.getScaledInstance(100, 100, Image.SCALE_SMOOTH);
-                        JLabel productImageLabel = new JLabel(new ImageIcon(scaledImage));
+                    ImageIcon scaledImageIcon = scaledImageCache.get(product.image());
+                    if (scaledImageIcon != null) {
+                        JLabel productImageLabel = new JLabel(scaledImageIcon);
                         productPanel.add(productImageLabel, BorderLayout.CENTER);
-                    } catch (IOException e) {
-                        e.printStackTrace();
                     }
                 }
 
@@ -216,43 +235,41 @@ public class Refrigerator extends JFrame {
         scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_NEVER);
         scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_ALWAYS);
         scrollPane.setPreferredSize(new Dimension(600, 200)); // Set a preferred size for each category panel
+
         return scrollPane;
     }
 
-    // Method to calculate and display the nutritional summary of all products
     // Method to calculate and display the nutritional summary of all products
     private void displayNutritionalSummary() {
         double totalCalories = 0;
         double totalProtein = 0;
         double totalFat = 0;
         double totalCarbohydrates = 0;
-    
+
         for (Product product : products) {
             totalCalories += product.getNutrientValues().getCalories();
             totalProtein += product.getNutrientValues().getProtein();
             totalFat += product.getNutrientValues().getFat();
             totalCarbohydrates += product.getNutrientValues().getCarbohydrates();
         }
-    
+
         // Check for the conditions and set the color accordingly
         String proteinColor = totalProtein < 2000 ? "red" : "white";
         String fatColor = totalFat < 200 ? "red" : "white";
         String carbohydratesColor = totalCarbohydrates < 450 ? "red" : "white";
-    
+
         // Use HTML to set the color of each row based on the conditions
         String proteinSummary = String.format("<font color='%s'>Total Protein: %.2f g</font>", proteinColor, totalProtein);
         String fatSummary = String.format("<font color='%s'>Total Fat: %.2f g</font>", fatColor, totalFat);
         String carbohydratesSummary = String.format("<font color='%s'>Total Carbohydrates: %.2f g</font>", carbohydratesColor, totalCarbohydrates);
-    
+
         String summary = String.format(
             "<html>Total Calories: %.2f<br>%s<br>%s<br>%s</html>",
             totalCalories, proteinSummary, fatSummary, carbohydratesSummary
         );
-    
+
         nutritionalSummaryLabel.setText(summary); // Set the text for the nutritional summary label
     }
-    
-
 
     // Method to refresh the main panel with updated product information
     private void refreshMainPanel() {
