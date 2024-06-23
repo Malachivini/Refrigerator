@@ -4,26 +4,40 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
-// Class representing a Product with its details and nutrient values
 public class Product {
     private String name; // Name of the product
     private NutrientValues nutrientValues; // Nutrient values of the product
     private Date expiration; // Expiration date of the product
     private double price; // Price of the product
-    private Integer amount; // Amount of the product
+    private double amount; // Amount of the product
+
+    private String measurementUnit; // Unit of measurement for the product
+    private boolean consumable; // Indicates if the product is consumable
+    private String category; // Category of the product
+    private String imgPath; // Path to the image of the product
+    private Integer quantity_sold;
+    private Integer valid_Days;
 
     // Constructor to initialize a Product object with all fields
-    public Product(String name, NutrientValues nutrientValues, Date expiration, double price, Integer amount) {
+    public Product(String name, NutrientValues nutrientValues, Date expiration, double price, double amount,
+                   String measurementUnit, boolean consumable, String category,Integer quantity_sold,Integer valid_Days, String imgPath) {
         this.name = name;
         this.nutrientValues = nutrientValues;
-        this.price = price;
         this.expiration = expiration;
+        this.price = price;
         this.amount = amount;
+        this.measurementUnit = measurementUnit;
+        this.consumable = consumable;
+        this.category = category;
+        this.quantity_sold = quantity_sold;
+        this.imgPath = imgPath;
+        this.valid_Days = valid_Days;
+        
     }
 
     // Getters and setters for each field
-    public Integer getAmount() { return amount; }
-    public void setAmount(Integer amount) { this.amount = amount; }
+    public double getAmount() { return amount; }
+    public void setAmount(double amount) { this.amount = amount; }
     public String getName() { return name; }
     public void setName(String name) { this.name = name; }
     public Date getExpiration() { return expiration; }
@@ -32,8 +46,21 @@ public class Product {
     public void setPrice(double price) { this.price = price; }
     public NutrientValues getNutrientValues() { return nutrientValues; }
     public void setNutrientValues(NutrientValues nutrientValues) { this.nutrientValues = nutrientValues; }
-    public String departments() { return this.nutrientValues.getCategory(); }
-    public String image() { return this.nutrientValues.getImage(); }
+    public String getMeasurementUnit() { return measurementUnit; }
+    public void setMeasurementUnit(String measurementUnit) { this.measurementUnit = measurementUnit; }
+    public boolean isConsumable() { return consumable; }
+    public void setConsumable(boolean consumable) { this.consumable = consumable; }
+    public String getCategory() { return category; }
+    public void setCategory(String category) { this.category = category; }
+    public Integer getQuantity_sold() { return quantity_sold; }
+    public void setQuantity_sold(Integer quantity_sold) { this.quantity_sold = quantity_sold; }
+    public Integer getvalid_Days() { return valid_Days; }
+    public void setvalid_Days(Integer valid_Days) { this.valid_Days = valid_Days; }
+    public String getImgPath() { return imgPath; }
+    public void setImgPath(String imgPath) { this.imgPath = imgPath; }
+
+    public String departments() { return this.category; }
+    public String image() { return this.imgPath; }
     public double calories() { return this.nutrientValues.getCalories(); }
 
     // Method to check if the product is expired based on the current date
@@ -48,7 +75,7 @@ public class Product {
 
     // New method to format the amount based on the measurement unit
     private String formatAmount() {
-        String unit = nutrientValues.getMeasurementUnit();
+        String unit = measurementUnit;
         double formattedAmount = amount;
         String unitLabel = unit;
 
@@ -95,6 +122,10 @@ public class Product {
         return "Product{" +
                "name:'" + name + '\'' +
                ", nutrientValues:" + nutrientValues + " expiration date: " + expiration + " price: " + price +
+               ", measurementUnit:'" + measurementUnit + '\'' +
+               ", consumable:" + consumable +
+               ", category:'" + category + '\'' +
+               ", imgPath:'" + imgPath + '\'' +
                '}';
     }
 
@@ -107,18 +138,14 @@ public class Product {
             br.readLine(); // Skip header line
             while ((line = br.readLine()) != null) {
                 String[] values = line.split(",");
-                if (values.length == 9) { // Ensure the line has the correct number of values
+                if (values.length == 11) { // Ensure the line has the correct number of values
                     String productName = values[0];
                     double calories = Double.parseDouble(values[1]);
                     double protein = Double.parseDouble(values[2]);
                     double fat = Double.parseDouble(values[3]);
                     double carbohydrates = Double.parseDouble(values[4]);
-                    String measurementUnit = values[5];
-                    boolean consumable = Boolean.parseBoolean(values[6]);
-                    String category = values[7];
-                    String imgPath = "refrigerator\\" + values[8];
 
-                    NutrientValues nutrientValues = new NutrientValues(calories, protein, fat, carbohydrates, measurementUnit, consumable, category, imgPath);
+                    NutrientValues nutrientValues = new NutrientValues(calories, protein, fat, carbohydrates);
                     nutrientValuesMap.put(productName, nutrientValues); // Add the nutrient values to the map
                 } else {
                     System.err.println("Skipping invalid line: " + line); // Print an error message for invalid lines

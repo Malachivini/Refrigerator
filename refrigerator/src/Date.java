@@ -103,4 +103,23 @@ public class Date {
             return adjustedDay < other.day;
         }
     }
+
+    // Method to get the next day
+    public Date getNextDay() {
+        int[] daysInMonth = {31, (isLeapYear(this.year) ? 29 : 28), 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+        int nextDay = this.day + 1;
+        int nextMonth = this.month;
+        int nextYear = this.year;
+
+        if (nextDay > daysInMonth[this.month - 1]) {
+            nextDay = 1;
+            nextMonth++;
+            if (nextMonth > 12) {
+                nextMonth = 1;
+                nextYear++;
+            }
+        }
+
+        return new Date(nextDay, nextMonth, nextYear);
+    }
 }
