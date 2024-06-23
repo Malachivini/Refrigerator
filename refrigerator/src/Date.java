@@ -24,11 +24,11 @@ public class Date {
         if (isValidDate(day, this.month, this.year)) { // Validate the new day before setting
             this.day = day;
         } else {
-            throw new IllegalArgumentException("Invalid day"); // Throw exception for invalid day
+            throw new IllegalArgumentException("Invalid day"); /// Throw exception for invalid day
         }
     }
 
-    public Integer getMonth() {
+    public Integer getMonth() { 
         return month;
     }
 
