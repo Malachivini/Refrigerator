@@ -1,9 +1,8 @@
+import javax.imageio.ImageIO;
+import javax.swing.*;
 import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.io.*;
-import javax.imageio.ImageIO;
-import javax.swing.*;
-import java.util.List;
 import java.util.*;
 
 public class RefrigeratorApp extends JFrame {
@@ -16,6 +15,12 @@ public class RefrigeratorApp extends JFrame {
     private Map<String, ImageIcon> scaledImageCache; // Cache for scaled product images
 
     private JFrame mainMenuFrame; // Reference to the main menu frame
+    private int refrigeratorTemp; // Temperature of the refrigerator
+    private int freezerTemp; // Temperature of the freezer
+    private RoundLabel refrigeratorTempLabel; // Label to display refrigerator temperature
+    private RoundLabel freezerTempLabel; // Label to display freezer temperature
+
+    private static final String TEMP_CSV_FILE_PATH = "refrigerator\\Refrigeretor.csv";
 
     // Constructor to initialize the Refrigerator application
     public RefrigeratorApp(JFrame mainMenuFrame, Map<String, BufferedImage> imageCache, Map<String, ImageIcon> scaledImageCache, Date date) {
@@ -23,6 +28,8 @@ public class RefrigeratorApp extends JFrame {
         this.imageCache = imageCache; // Initialize the image cache
         this.scaledImageCache = scaledImageCache; // Initialize the scaled image cache
         GlobalVariables.date = date; // Initialize the date
+
+        loadTemperaturesFromCSV(TEMP_CSV_FILE_PATH); // Load temperatures from CSV file
 
         loadDoorImages("refrigerator\\src\\photos\\refr3.png"); // Load door images
 
@@ -121,6 +128,58 @@ public class RefrigeratorApp extends JFrame {
         });
         rightDoorPanel.add(nextDayButton); // Add button to the right door panel
 
+        // Add temperature controls for the refrigerator
+        JLabel refrigeratorLabel = new JLabel("<html><b><font size='4' color='white'>Refrigerator</font></b></html>");
+        refrigeratorLabel.setBounds(19, 650, 150, 30); // Set position and size of the label
+        rightDoorPanel.add(refrigeratorLabel); // Add label to the right door panel
+
+        RoundButton fridgeMinusButton = new RoundButton("-");
+        fridgeMinusButton.setBounds(19, 680, 50, 50); // Set position and size of the button
+        fridgeMinusButton.setFont(new Font("Arial", Font.BOLD, 20));
+        fridgeMinusButton.setBackground(Color.GRAY);
+        fridgeMinusButton.addActionListener(e -> updateRefrigeratorTemp(-1));
+        rightDoorPanel.add(fridgeMinusButton); // Add button to the right door panel
+
+        refrigeratorTempLabel = new RoundLabel(String.valueOf(refrigeratorTemp) + "°");
+        refrigeratorTempLabel.setBounds(80, 680, 50, 50); // Set position and size of the label
+        refrigeratorTempLabel.setForeground(Color.BLUE);
+        refrigeratorTempLabel.setBackground(Color.WHITE); // Set background color to white
+        refrigeratorTempLabel.setFont(new Font("Arial", Font.BOLD, 20));
+        rightDoorPanel.add(refrigeratorTempLabel); // Add label to the right door panel
+
+        RoundButton fridgePlusButton = new RoundButton("+");
+        fridgePlusButton.setBounds(140, 680, 50, 50); // Set position and size of the button
+        fridgePlusButton.setFont(new Font("Arial", Font.BOLD, 20));
+        fridgePlusButton.setBackground(Color.GRAY);
+        fridgePlusButton.addActionListener(e -> updateRefrigeratorTemp(1));
+        rightDoorPanel.add(fridgePlusButton); // Add button to the right door panel
+
+        // Add temperature controls for the freezer
+        JLabel freezerLabel = new JLabel("<html><b><font size='4' color='white'>Freezer</font></b></html>");
+        freezerLabel.setBounds(19, 720, 150, 30); // Set position and size of the label
+        rightDoorPanel.add(freezerLabel); // Add label to the right door panel
+
+        RoundButton freezerMinusButton = new RoundButton("-");
+        freezerMinusButton.setBounds(19, 750, 50, 50); // Set position and size of the button
+        freezerMinusButton.setFont(new Font("Arial", Font.BOLD, 20));
+        freezerMinusButton.setBackground(Color.GRAY);
+        freezerMinusButton.addActionListener(e -> updateFreezerTemp(-1));
+        rightDoorPanel.add(freezerMinusButton); // Add button to the right door panel
+
+        freezerTempLabel = new RoundLabel(String.valueOf(freezerTemp) + "°");
+        freezerTempLabel.setBounds(80, 750, 50, 50); // Set position and size of the label
+        freezerTempLabel.setForeground(Color.BLUE);
+        freezerTempLabel.setBackground(Color.WHITE); // Set background color to white
+        freezerTempLabel.setFont(new Font("Arial", Font.BOLD, 20));
+        rightDoorPanel.add(freezerTempLabel); // Add label to the right door panel
+
+        RoundButton freezerPlusButton = new RoundButton("+");
+        freezerPlusButton.setBounds(140, 750, 50, 50); // Set position and size of the button
+        freezerPlusButton.setFont(new Font("Arial", Font.BOLD, 20));
+        freezerPlusButton.setBackground(Color.GRAY);
+        freezerPlusButton.addActionListener(e -> updateFreezerTemp(1));
+        rightDoorPanel.add(freezerPlusButton); // Add button to the right door panel
+
         // Create and configure the main panel
         mainPanel = new JPanel();
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS)); // Layout in vertical box
@@ -139,6 +198,31 @@ public class RefrigeratorApp extends JFrame {
         add(rightDoorPanel, BorderLayout.EAST); // Add right door panel to the east
 
         refreshMainPanel(); // Initial refresh to display products
+    }
+
+    private void loadTemperaturesFromCSV(String filePath) {
+        try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
+            String line;
+            if ((line = br.readLine()) != null) {
+                String[] headers = line.split(",");
+                if ((line = br.readLine()) != null) {
+                    String[] values = line.split(",");
+                    refrigeratorTemp = Integer.parseInt(values[0]);
+                    freezerTemp = Integer.parseInt(values[1]);
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void saveTemperaturesToCSV(String filePath) {
+        try (PrintWriter writer = new PrintWriter(new FileWriter(filePath))) {
+            writer.println("refrigeratorTemp,freezerTemp"); // Header
+            writer.println(refrigeratorTemp + "," + freezerTemp);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     // Method to show the search dialog
@@ -480,7 +564,118 @@ public class RefrigeratorApp extends JFrame {
         mainPanel.repaint(); // Repaint the main panel to reflect changes
     }
 
+    // Method to update the refrigerator temperature
+    private void updateRefrigeratorTemp(int change) {
+        if(refrigeratorTemp==12){
+            if(change==1){
+                return;
+            }
+        }if(refrigeratorTemp==1){
+            if(change==-1){
+                return;
+            }
+        }
+        refrigeratorTemp += change;
+        refrigeratorTempLabel.setText(refrigeratorTemp + "°");
+        saveTemperaturesToCSV(TEMP_CSV_FILE_PATH); // Save the updated temperatures to CSV
+    }
+
+    // Method to update the freezer temperature
+    private void updateFreezerTemp(int change) {
+        if(freezerTemp==-13){
+            if(change==1){
+                return;
+            }
+        }if(freezerTemp==-23){
+            if(change==-1){
+                return;
+            }
+        }
+        freezerTemp += change;
+        freezerTempLabel.setText(freezerTemp + "°");
+        saveTemperaturesToCSV(TEMP_CSV_FILE_PATH); // Save the updated temperatures to CSV
+    }
+
     public static void main(String[] args) {
         // This main method is not needed because the RefrigeratorApp will be launched from MainMenu
+    }
+}
+
+class RoundButton extends JButton {
+    public RoundButton(String label) {
+        super(label);
+        setOpaque(false);
+        setContentAreaFilled(false);
+        setFocusPainted(false);
+        setBorderPainted(false);
+    }
+
+    @Override
+    protected void paintComponent(Graphics g) {
+        Graphics2D g2 = (Graphics2D) g.create();
+        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        g2.setColor(getBackground());
+        g2.fillOval(0, 0, getWidth(), getHeight());
+        super.paintComponent(g);
+        g2.dispose();
+    }
+
+    @Override
+    protected void paintBorder(Graphics g) {
+        Graphics2D g2 = (Graphics2D) g.create();
+        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        g2.setColor(getForeground());
+        g2.drawOval(0, 0, getWidth() - 1, getHeight() - 1);
+        g2.dispose();
+    }
+
+    @Override
+    public Dimension getPreferredSize() {
+        return new Dimension(50, 50);
+    }
+
+    @Override
+    public boolean contains(int x, int y) {
+        int radius = getWidth() / 2;
+        return (x - radius) * (x - radius) + (y - radius) * (y - radius) <= radius * radius;
+    }
+}
+
+class RoundLabel extends JLabel {
+    public RoundLabel(String text) {
+        super(text);
+        setOpaque(false);
+        setHorizontalAlignment(SwingConstants.CENTER);
+        setVerticalAlignment(SwingConstants.CENTER);
+    }
+
+    @Override
+    protected void paintComponent(Graphics g) {
+        Graphics2D g2 = (Graphics2D) g.create();
+        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        g2.setColor(getBackground());
+        g2.fillOval(0, 0, getWidth(), getHeight());
+        super.paintComponent(g);
+        g2.dispose();
+    }
+
+    @Override
+    protected void paintBorder(Graphics g) {
+        Graphics2D g2 = (Graphics2D) g.create();
+        g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        g2.setColor(getForeground());
+        g2.drawOval(0, 0, getWidth() - 1, getHeight() - 1);
+        g2.dispose();
+    }
+
+    @Override
+    public Dimension getPreferredSize() {
+        return new Dimension(50, 50);
+    }
+
+    @Override
+    public boolean contains(int x, int y) {
+        int radius = getWidth() / 2;
+        return (x - radius) * (x - radius) + (y - radius) * (y - radius) <= radius * radius;
     }
 }
