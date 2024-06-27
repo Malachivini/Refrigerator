@@ -4,6 +4,9 @@ import java.awt.image.BufferedImage; // Importing BufferedImage class
 import java.io.*; // Importing I/O classes
 import javax.imageio.ImageIO; // Importing ImageIO class
 import java.util.*; // Importing utility classes
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 import java.io.BufferedReader; // Importing BufferedReader class
 import java.io.FileReader; // Importing FileReader class
 import java.io.IOException; // Importing IOException class
@@ -23,9 +26,26 @@ public class MainMenu extends JFrame {
 
         loadProductsFromCSV(GlobalVariables.CSV_FILE_PATH, GlobalVariables.CSV_FILE_PATH2); // Load products from CSV files
 
-        // Load images asynchronously
-        new Thread(this::loadImagesToCache).start(); // Start a new thread to load images
+        // Show a loading indicator while images are being loaded
+        JProgressBar progressBar = new JProgressBar();
+        progressBar.setIndeterminate(true);
+        progressBar.setStringPainted(true);
+        progressBar.setString("Loading application...");
+        setContentPane(progressBar);
+        setVisible(true);
 
+        // Load images asynchronously and wait for completion
+        new Thread(() -> {
+            loadImagesToCache();
+            // Update UI on the Event Dispatch Thread after loading is complete
+            SwingUtilities.invokeLater(() -> {
+                remove(progressBar);
+                initializeUI();
+            });
+        }).start();
+    }
+
+    private void initializeUI() {
         try {
             backgroundImage = ImageIO.read(new File("refrigerator\\src\\photos\\refr.png")); // Load the background image
         } catch (IOException e) {
@@ -56,6 +76,8 @@ public class MainMenu extends JFrame {
 
         gbc.gridy = 2; // Set grid y position
         backgroundPanel.add(goToRecipesButton, gbc); // Add "Go to Recipes" button to the panel
+
+        setVisible(true);
     }
 
     public void updateDate(Date newDate) {
@@ -151,28 +173,57 @@ public class MainMenu extends JFrame {
 
     // Method to load all product images into cache asynchronously
     private void loadImagesToCache() {
+        ExecutorService executor = Executors.newFixedThreadPool(4); // Create a thread pool with 4 threads
+
+        List<Product> productsBatch = new ArrayList<>();
         for (Product product : GlobalVariables.products) {
             if (product.image() != null && !product.image().isEmpty()) {
-                try {
-                    File imageFile = new File(product.image());
-                    if (!imageFile.exists()) {
-                        System.err.println("Image file does not exist: " + product.image());
-                        continue;
-                    }
-                    BufferedImage image = ImageIO.read(imageFile);
-                    if (image == null) {
-                        System.err.println("Failed to read image: " + product.image());
-                        continue;
-                    }
+                productsBatch.add(product);
+                if (productsBatch.size() == 10) {
+                    List<Product> batch = new ArrayList<>(productsBatch);
+                    productsBatch.clear();
+                    executor.submit(() -> loadImageBatch(batch));
+                }
+            }
+        }
+
+        if (!productsBatch.isEmpty()) {
+            executor.submit(() -> loadImageBatch(productsBatch));
+        }
+
+        executor.shutdown();
+        try {
+            if (!executor.awaitTermination(60, TimeUnit.SECONDS)) {
+                executor.shutdownNow();
+            }
+        } catch (InterruptedException e) {
+            executor.shutdownNow();
+        }
+    }
+
+    private void loadImageBatch(List<Product> batch) {
+        for (Product product : batch) {
+            try {
+                File imageFile = new File(product.image());
+                if (!imageFile.exists()) {
+                    System.err.println("Image file does not exist: " + product.image());
+                    continue;
+                }
+                BufferedImage image = ImageIO.read(imageFile);
+                if (image == null) {
+                    System.err.println("Failed to read image: " + product.image());
+                    continue;
+                }
+                synchronized (imageCache) {
                     imageCache.put(product.image(), image); // Save the image in the cache
 
                     // Create and cache scaled image
                     Image scaledImage = image.getScaledInstance(100, 100, Image.SCALE_SMOOTH);
                     scaledImageCache.put(product.image(), new ImageIcon(scaledImage));
-                } catch (IOException e) {
-                    System.err.println("Error reading image file: " + product.image());
-                    e.printStackTrace(); // Print stack trace if an error occurs
                 }
+            } catch (IOException e) {
+                System.err.println("Error reading image file: " + product.image());
+                e.printStackTrace(); // Print stack trace if an error occurs
             }
         }
     }

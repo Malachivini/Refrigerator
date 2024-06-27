@@ -80,3 +80,85 @@ Ground Beef,250,17,20,0,USE_GRAMS,true,Meat,600,3,Refrigerator\src\photos\Ground
 Pasta,131,5,1,25,USE_GRAMS,true,Dry Food,500,3,Refrigerator\src\photos\Pasta.png
 Shawarma,300,25,20,5,USE_GRAMS,true,Meat,600,3,Refrigerator\src\photos\Shawarma.png
 Chicken Hearts,185,17,13,0,USE_GRAMS,true,Meat,600,3,Refrigerator\src\photos\Chicken_Hearts.png
+Flour,364,10,1,76,USE_GRAMS,true,Dry Food,1000,180,Refrigerator\src\photos\Flour.png
+White Sugar,387,0,0,100,USE_GRAMS,true,Dry Food,1000,180,Refrigerator\src\photos\White_Sugar.png
+Brown Sugar,380,0,0,98,USE_GRAMS,true,Dry Food,1000,180,Refrigerator\src\photos\Brown_Sugar.png
+Honey,304,0.3,0,82,USE_GRAMS,true,Dry Food,500,365,Refrigerator\src\photos\Honey.png
+Salt,0,0,0,0,USE_GRAMS,true,Dry Food,500,365,Refrigerator\src\photos\Salt.png
+Black Pepper,255,10,3,64,USE_GRAMS,true,Dry Food,100,365,Refrigerator\src\photos\Black_Pepper.png
+Olive Oil,884,0,100,0,USE_LITER,true,Dry Food,1000,365,Refrigerator\src\photos\Olive_Oil.png
+Canola Oil,884,0,100,0,USE_LITER,true,Dry Food,1000,365,Refrigerator\src\photos\Canola_Oil.png
+Cinnamon,247,4,1.2,81,USE_GRAMS,true,Dry Food,100,365,Refrigerator\src\photos\Cinnamon.png
+Turmeric,354,8,10,65,USE_GRAMS,true,Dry Food,100,365,Refrigerator\src\photos\Turmeric.png
+Cumin,375,18,22,44,USE_GRAMS,true,Dry Food,100,365,Refrigerator\src\photos\Cumin.png
+Sweet Paprika,282,14,13,54,USE_GRAMS,true,Dry Food,100,365,Refrigerator\src\photos\Sweet_Paprika.png
+Hot Paprika,282,14,13,54,USE_GRAMS,true,Dry Food,100,365,Refrigerator\src\photos\Hot_Paprika.png
+Coriander Seeds,298,12,17,55,USE_GRAMS,true,Dry Food,100,365,Refrigerator\src\photos\Coriander_Seeds.png
+Tahini,595,17,53,21,USE_GRAMS,true,Dry Food,500,365,Refrigerator\src\photos\Tahini.png
+Balsamic Vinegar,88,0.5,0,17,USE_LITER,true,Dry Food,500,365,Refrigerator\src\photos\Balsamic_Vinegar.png
+Soy Milk,33,3.5,1.6,2.9,USE_LITER,true,Dairy,1000,7,Refrigerator\src\photos\Soy_Milk.png
+Almond Milk,17,0.6,1.2,0.6,USE_LITER,true,Dairy,1000,7,Refrigerator\src\photos\Almond_Milk.png
+Brie Cheese,334,21,27,0.5,USE_GRAMS,true,Dairy,200,7,Refrigerator\src\photos\Brie_Cheese.png
+Ricotta Cheese,174,7.5,13,6.4,USE_GRAMS,true,Dairy,200,7,Refrigerator\src\photos\Ricotta_Cheese.png
+Parsley,36,3,0.8,6,USE_GRAMS,true,VegetableFruit,100,7,Refrigerator\src\photos\Parsley.png
+Oregano,306,11,10,68,USE_GRAMS,true,Dry Food,100,365,Refrigerator\src\photos\Oregano.png
+Garlic,149,6.4,0.5,33,USE_GRAMS,true,VegetableFruit,100,365,Refrigerator\src\photos\Garlic.png
+Thyme,101,5.6,1.7,24,USE_GRAMS,true,Dry Food,100,365,Refrigerator\src\photos\Thyme.png
+Rosemary,131,3.3,5.9,21,USE_GRAMS,true,Dry Food,100,365,Refrigerator\src\photos\Rosemary.png
+Bay Leaves,313,7.6,8.4,75,USE_GRAMS,true,Dry Food,100,365,Refrigerator\src\photos\Bay_Leaves.png
+Nutmeg,525,6,36,49,USE_GRAMS,true,Dry Food,100,365,Refrigerator\src\photos\Nutmeg.png
+Yeast,325,45,8,40,USE_GRAMS,true,Dry Food,100,365,Refrigerator\src\photos\Yeast.png
+Baking Soda,0,0,0,0,USE_GRAMS,true,Dry Food,500,365,Refrigerator\src\photos\Baking_Soda.png
+Baking Powder,53,0,0,27,USE_GRAMS,true,Dry Food,500,365,Refrigerator\src\photos\Baking_Powder.png
+Cocoa Powder,228,19.6,13.7,57.9,USE_GRAMS,true,Dry Food,500,365,Refrigerator\src\photos\Cocoa_Powder.png
+Maple Syrup,260,0,0,67,USE_GRAMS,true,Dry Food,500,365,Refrigerator\src\photos\Maple_Syrup.png
+Lemon Juice,22,0.3,0.2,6.9,USE_LITER,true,Dry Food,500,365,Refrigerator\src\photos\Lemon_Juice.png
+Pickles,12,0.4,0.1,2.2,USE_GRAMS,true,VegetableFruit,500,365,Refrigerator\src\photos\Pickles.png
+Goat Cheese,268,21,20,2.5,USE_GRAMS,true,Dairy,100,7,Refrigerator\src\photos\Goat_Cheese.png
+Swiss Cheese,380,27,30,1.5,USE_GRAMS,true,Dairy,100,7,Refrigerator\src\photos\Swiss_Cheese.png
+Greek Yogurt,59,10,0.4,4.7,USE_GRAMS,true,Dairy,200,7,Refrigerator\src\photos\Greek_Yogurt.png
+Skim Milk,34,3.4,0.1,5,USE_LITER,true,Dairy,1000,7,Refrigerator\src\photos\Skim_Milk.png
+Blue Cheese,353,21,30,2.3,USE_GRAMS,true,Dairy,100,7,Refrigerator\src\photos\Blue_Cheese.png
+Gouda,356,25,27,2.2,USE_GRAMS,true,Dairy,100,7,Refrigerator\src\photos\Gouda.png
+Mascarpone,429,5,44,1.6,USE_GRAMS,true,Dairy,100,7,Refrigerator\src\photos\Mascarpone.png
+Sour Cream,214,2.4,20,4.1,USE_GRAMS,true,Dairy,200,7,Refrigerator\src\photos\Sour_Cream.png
+Clotted Cream,649,1.6,65,2.3,USE_GRAMS,true,Dairy,100,7,Refrigerator\src\photos\Clotted_Cream.png
+Ice Cream,207,3.5,11,24,USE_GRAMS,true,Dairy,100,7,Refrigerator\src\photos\Ice_Cream.png
+Manchego,377,24,32,1,USE_GRAMS,true,Dairy,100,7,Refrigerator\src\photos\Manchego.png
+Burrata,305,16,25,2,USE_GRAMS,true,Dairy,100,7,Refrigerator\src\photos\Burrata.png
+Queso Fresco,208,11,16,3,USE_GRAMS,true,Dairy,100,7,Refrigerator\src\photos\Queso_Fresco.png
+Creme Fraiche,340,2,36,3,USE_GRAMS,true,Dairy,100,7,Refrigerator\src\photos\Creme_Fraiche.png
+Lamb Chop,294,25,21,0,USE_GRAMS,true,Meat,200,3,Refrigerator\src\photos\Lamb_Chop.png
+Veal Cutlet,172,30,5,0,USE_GRAMS,true,Meat,200,3,Refrigerator\src\photos\Veal_Cutlet.png
+Lamb Shank,209,20,15,0,USE_GRAMS,true,Meat,200,3,Refrigerator\src\photos\Lamb_Shank.png
+Cornflakes,357,8,2,84,USE_GRAMS,true,Dry Food,1000,365,Refrigerator\src\photos\Cornflakes.png
+Pistachio Nuts,562,20,45,28,USE_GRAMS,true,Dry Food,500,365,Refrigerator\src\photos\Pistachio_Nuts.png
+Cashews,553,18,44,30,USE_GRAMS,true,Dry Food,500,365,Refrigerator\src\photos\Cashews.png
+Walnut Halves,654,15,65,14,USE_GRAMS,true,Dry Food,500,365,Refrigerator\src\photos\Walnut_Halves.png
+Hazelnuts,628,15,61,17,USE_GRAMS,true,Dry Food,500,365,Refrigerator\src\photos\Hazelnuts.png
+Pecans,691,9,72,14,USE_GRAMS,true,Dry Food,500,365,Refrigerator\src\photos\Pecans.png
+Raisins,299,3.1,0.5,79,USE_GRAMS,true,Dry Food,500,365,Refrigerator\src\photos\Raisins.png
+Dried Figs,249,3.3,0.9,64,USE_GRAMS,true,Dry Food,500,365,Refrigerator\src\photos\Dried_Figs.png
+Prunes,240,2.2,0.4,63,USE_GRAMS,true,Dry Food,500,365,Refrigerator\src\photos\Prunes.png
+Muesli,389,10,7,69,USE_GRAMS,true,Dry Food,1000,365,Refrigerator\src\photos\Muesli.png
+Potato Chips,536,6.5,34,53,USE_GRAMS,true,Dry Food,500,365,Refrigerator\src\photos\Potato_Chips.png
+Pretzels,380,10,3,80,USE_GRAMS,true,Dry Food,500,365,Refrigerator\src\photos\Pretzels.png
+Peas,81,5,0.4,14,USE_GRAMS,true,VegetableFruit,1000,7,Refrigerator\src\photos\Peas.png
+Asparagus,20,2.2,0.1,3.9,USE_QUANTITY,true,VegetableFruit,1,7,Refrigerator\src\photos\Asparagus.png
+Pine Nuts,673,14,68,14,USE_GRAMS,true,Dry Food,500,365,Refrigerator\src\photos\Pine_Nuts.png
+Artichoke,47,3.3,0.2,10.5,USE_QUANTITY,true,VegetableFruit,1,7,Refrigerator\src\photos\Artichoke.png
+Edamame,121,11.9,5.2,9.9,USE_GRAMS,true,VegetableFruit,500,7,Refrigerator\src\photos\Edamame.png
+Fig,74,0.8,0.3,19,USE_QUANTITY,true,VegetableFruit,1,7,Refrigerator\src\photos\Fig.png
+Ginger,80,1.8,0.8,18,USE_GRAMS,true,VegetableFruit,500,365,Refrigerator\src\photos\Ginger.png
+Kiwi,61,1.1,0.5,15,USE_QUANTITY,true,VegetableFruit,1,7,Refrigerator\src\photos\Kiwi.png
+Lentils,116,9,0.4,20,USE_GRAMS,true,Dry Food,1000,365,Refrigerator\src\photos\Lentils.png
+Okra,33,1.9,0.2,7.5,USE_QUANTITY,true,VegetableFruit,1,7,Refrigerator\src\photos\Okra.png
+Plum,46,0.7,0.3,11,USE_QUANTITY,true,VegetableFruit,1,7,Refrigerator\src\photos\Plum.png
+Radish,16,0.7,0.1,3.4,USE_QUANTITY,true,VegetableFruit,1,7,Refrigerator\src\photos\Radish.png
+Soy Sauce,53,8,0.1,5.6,USE_LITER,true,Dry Food,500,365,Refrigerator\src\photos\Soy_Sauce.png
+Vanilla Extract,288,0.1,0.1,12.7,USE_LITER,true,Dry Food,500,365,Refrigerator\src\photos\Vanilla_Extract.png
+Worcestershire Sauce,78,1,0,19,USE_LITER,true,Dry Food,500,365,Refrigerator\src\photos\Worcestershire_Sauce.png
+Zucchini,17,1.2,0.3,3.1,USE_QUANTITY,true,VegetableFruit,1,7,Refrigerator\src\photos\Zucchini.png
+Tilapia,96,20.1,1.7,0,USE_GRAMS,true,Meat,1000,3,Refrigerator\src\photos\Tilapia.png
+Cantaloupe,34,0.8,0.2,8.2,USE_QUANTITY,true,VegetableFruit,1,7,Refrigerator\src\photos\Cantaloupe.png
+Nectarine,44,1.1,0.3,11,USE_QUANTITY,true,VegetableFruit,1,7,Refrigerator\src\photos\Nectarine.png
