@@ -6,4 +6,8 @@ public class GlobalVariables {
     public static final String CSV_FILE_PATH = "refrigerator\\productsInRefrigeretor.csv"; // CSV file path
     public static final String CSV_FILE_PATH2 = "refrigerator\\ingredients.csv"; // CSV file path
     public static List<Product> products = new ArrayList<>(); // Global products list
+
+    public static void LoadProducts() {
+        //do nothing for now
+    }
 }
