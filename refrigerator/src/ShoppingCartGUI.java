@@ -16,17 +16,21 @@ public class ShoppingCartGUI extends GenericGUI {
     private JTextField searchField;
     private JComboBox<String> searchBox;
     private JLabel moneyLabel;
+    private MainMenu mainMenu; // Reference to MainMenu
 
-    public ShoppingCartGUI(String frameName, int frameWidth, int frameHeight) {
+    public ShoppingCartGUI(String frameName, int frameWidth, int frameHeight, MainMenu mainMenu) {
         super(frameName, frameWidth, frameHeight);
         this.selectedProducts = new ArrayList<>();
         this.quantities = new ArrayList<>();
         this.productSubPanels = new ArrayList<>();
+        this.mainMenu = mainMenu; // Initialize the MainMenu reference
     }
 
     @Override
     public void load() {
+        
         // Load initial products from the global list
+        System.out.println("Loading initial products...");
         for (int i = 0; i < 3; i++) {
             selectedProducts.add(GlobalVariables.products.get(i));
             quantities.add(i + 1); // Quantities 1, 2, 3
@@ -60,6 +64,7 @@ public class ShoppingCartGUI extends GenericGUI {
 
         searchBox = new JComboBox<>();
         updateSearchBox(""); // Initialize with all products
+        System.out.println("Loading ...");
 
         JButton addButton = new JButton("Add");
         addButton.addActionListener(new ActionListener() {
@@ -84,9 +89,14 @@ public class ShoppingCartGUI extends GenericGUI {
         JButton cleanButton = new JButton("Clean");
         moneyLabel = new JLabel("$$$$$$");
 
+        // Add action listener to return to MainMenu
+        JButton backButton = new JButton("Back to Main Menu");
+        backButton.addActionListener(e -> returnToMainMenu());
+        
         subPanel.add(buyAllButton);
         subPanel.add(cleanButton);
         subPanel.add(moneyLabel);
+        subPanel.add(backButton);
 
         // Add components to frame
         frame.getContentPane().add(searchPanel, BorderLayout.NORTH);
@@ -99,6 +109,7 @@ public class ShoppingCartGUI extends GenericGUI {
 
     @Override
     public void show() {
+        System.out.println("Showing ShoppingCartGUI...");
         frame.setVisible(true);
     }
 
@@ -227,8 +238,15 @@ public class ShoppingCartGUI extends GenericGUI {
         moneyLabel.setText(String.format("$%.2f", totalPrice));
     }
 
+    // Method to return to the main menu
+    private void returnToMainMenu() {
+        System.out.println("Returning to MainMenu...");
+        mainMenu.show();
+        frame.setVisible(false);
+    }
+
     public static void main(String[] args) {
-        ShoppingCartGUI gui = new ShoppingCartGUI("Shopping Cart", 400, 600);
+        ShoppingCartGUI gui = new ShoppingCartGUI("Shopping Cart", 400, 600, null); // Pass null for MainMenu in standalone mode
         gui.load();
         gui.show();
     }

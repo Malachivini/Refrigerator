@@ -7,22 +7,17 @@ import java.util.*; // Importing utility classes
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
-import java.io.BufferedReader; // Importing BufferedReader class
-import java.io.FileReader; // Importing FileReader class
-import java.io.IOException; // Importing IOException class
-import java.util.HashMap; // Importing HashMap class
-import java.util.Map; // Importing Map class
-import java.util.List; // Importing List class
+import java.util.List;
 
-public class MainMenu extends JFrame {
+public class MainMenu extends GenericGUI {
     private BufferedImage backgroundImage; // Variable to store background image
     private Map<String, BufferedImage> imageCache = new HashMap<>(); // Cache for product images
     private Map<String, ImageIcon> scaledImageCache = new HashMap<>(); // Cache for scaled product images
+    private Application app;
 
-    public MainMenu() {
-        setTitle("Main Menu"); // Setting the title of the window
-        setSize(400, 700); // Setting the size of the window
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Setting the default close operation
+    public MainMenu(Application app) {
+        super("Main Menu", 400, 700); // Call the super constructor
+        this.app = app;
 
         loadProductsFromCSV(GlobalVariables.CSV_FILE_PATH, GlobalVariables.CSV_FILE_PATH2); // Load products from CSV files
 
@@ -31,15 +26,15 @@ public class MainMenu extends JFrame {
         progressBar.setIndeterminate(true);
         progressBar.setStringPainted(true);
         progressBar.setString("Loading application...");
-        setContentPane(progressBar);
-        setVisible(true);
+        frame.setContentPane(progressBar);
+        frame.setVisible(true);
 
         // Load images asynchronously and wait for completion
         new Thread(() -> {
             loadImagesToCache();
             // Update UI on the Event Dispatch Thread after loading is complete
             SwingUtilities.invokeLater(() -> {
-                remove(progressBar);
+                frame.remove(progressBar);
                 initializeUI();
             });
         }).start();
@@ -54,7 +49,7 @@ public class MainMenu extends JFrame {
 
         BackgroundPanel backgroundPanel = new BackgroundPanel(); // Create a new BackgroundPanel
         backgroundPanel.setLayout(new GridBagLayout()); // Set the layout to GridBagLayout
-        setContentPane(backgroundPanel); // Set the content pane
+        frame.setContentPane(backgroundPanel); // Set the content pane
 
         GridBagConstraints gbc = new GridBagConstraints(); // Create GridBagConstraints
         gbc.insets = new Insets(10, 10, 10, 10); // Set spacing between buttons
@@ -77,7 +72,7 @@ public class MainMenu extends JFrame {
         gbc.gridy = 2; // Set grid y position
         backgroundPanel.add(goToRecipesButton, gbc); // Add "Go to Recipes" button to the panel
 
-        setVisible(true);
+        frame.setVisible(true);
     }
 
     public void updateDate(Date newDate) {
@@ -91,17 +86,21 @@ public class MainMenu extends JFrame {
     }
 
     private void openRefrigeratorScreen() {
-        RefrigeratorApp refrigeratorApp = new RefrigeratorApp(this, imageCache, scaledImageCache, GlobalVariables.date); // Create a new RefrigeratorApp instance
-        setVisible(false); // Set the main menu invisible
-        refrigeratorApp.setVisible(true); // Set the refrigerator app visible
+        RefrigeratorApp refrigeratorApp = new RefrigeratorApp(this, imageCache, scaledImageCache, GlobalVariables.date); // Pass image caches
+        frame.setVisible(false); // Set the main menu invisible
+        refrigeratorApp.show(); // Show the refrigerator app
     }
 
     private void openShoppingListScreen() {
-        JOptionPane.showMessageDialog(this, "Shopping List Screen (to be implemented)"); // Show a message dialog
+        ShoppingCartGUI shoppingCartGUI = new ShoppingCartGUI("Shopping Cart", 400, 600, this); // Pass MainMenu instance
+        shoppingCartGUI.load();
+
+        frame.setVisible(false); // Set the main menu invisible
+        shoppingCartGUI.show(); // Set the shopping cart visible
     }
 
     private void openRecipesScreen() {
-        JOptionPane.showMessageDialog(this, "Recipes Screen (to be implemented)"); // Show a message dialog
+        JOptionPane.showMessageDialog(frame, "Recipes Screen (to be implemented)"); // Show a message dialog
     }
 
     private class BackgroundPanel extends JPanel {
@@ -205,6 +204,7 @@ public class MainMenu extends JFrame {
         for (Product product : batch) {
             try {
                 File imageFile = new File(product.image());
+                System.out.println("Loading image from: " + imageFile.getAbsolutePath());
                 if (!imageFile.exists()) {
                     System.err.println("Image file does not exist: " + product.image());
                     continue;
@@ -228,7 +228,23 @@ public class MainMenu extends JFrame {
         }
     }
 
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> new MainMenu().setVisible(true)); // Run the application
+    @Override
+    public void load() {
+        // Implement the load method
+    }
+
+    @Override
+    public void show() {
+        frame.setVisible(true);
+    }
+
+    @Override
+    public void close() {
+        frame.dispose();
+    }
+
+    @Override
+    public void save() {
+        // Implement the save method
     }
 }

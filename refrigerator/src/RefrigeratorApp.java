@@ -1,3 +1,4 @@
+import com.sun.java.accessibility.util.GUIInitializedListener;
 import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
@@ -5,7 +6,7 @@ import java.awt.image.BufferedImage;
 import java.io.*;
 import java.util.*;
 
-public class RefrigeratorApp extends JFrame {
+public class RefrigeratorApp extends GenericGUI {
     private BufferedImage leftDoorImage; // Image for the left door
     private BufferedImage rightDoorImage; // Image for the right door
     private JLabel dateLabel; // Label to display the date
@@ -14,17 +15,18 @@ public class RefrigeratorApp extends JFrame {
     private Map<String, BufferedImage> imageCache; // Cache for product images
     private Map<String, ImageIcon> scaledImageCache; // Cache for scaled product images
 
-    private JFrame mainMenuFrame; // Reference to the main menu frame
     private int refrigeratorTemp; // Temperature of the refrigerator
     private int freezerTemp; // Temperature of the freezer
     private RoundLabel refrigeratorTempLabel; // Label to display refrigerator temperature
     private RoundLabel freezerTempLabel; // Label to display freezer temperature
 
     private static final String TEMP_CSV_FILE_PATH = "refrigerator\\Refrigeretor.csv";
+    private MainMenu mainMenu; // Reference to MainMenu
 
     // Constructor to initialize the Refrigerator application
-    public RefrigeratorApp(JFrame mainMenuFrame, Map<String, BufferedImage> imageCache, Map<String, ImageIcon> scaledImageCache, Date date) {
-        this.mainMenuFrame = mainMenuFrame; // Initialize the main menu frame reference
+    public RefrigeratorApp(MainMenu mainMenu, Map<String, BufferedImage> imageCache, Map<String, ImageIcon> scaledImageCache, Date date) {
+        super("Refrigerator", 1100, 1000);
+        this.mainMenu = mainMenu; // Initialize the MainMenu reference
         this.imageCache = imageCache; // Initialize the image cache
         this.scaledImageCache = scaledImageCache; // Initialize the scaled image cache
         GlobalVariables.date = date; // Initialize the date
@@ -33,10 +35,8 @@ public class RefrigeratorApp extends JFrame {
 
         loadDoorImages("refrigerator\\src\\photos\\refr3.png"); // Load door images
 
-        setTitle("Refrigerator"); // Set the title of the application
-        setSize(1100, 1000); // Set the size of the application window
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Set the default close operation
-        setLayout(new BorderLayout()); // Set the layout to BorderLayout
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Set the default close operation
+        frame.setLayout(new BorderLayout()); // Set the layout to BorderLayout
 
         // Create and configure the left door panel
         JPanel leftDoorPanel = new JPanel() {
@@ -193,13 +193,34 @@ public class RefrigeratorApp extends JFrame {
         nutritionalSummaryLabel.setBounds(20, 100, 200, 200); // Set position and size of the label
 
         // Add panels to the refrigerator panel
-        add(leftDoorPanel, BorderLayout.WEST); // Add left door panel to the west
-        add(new JScrollPane(mainPanel), BorderLayout.CENTER); // Add main panel to the center with scroll pane
-        add(rightDoorPanel, BorderLayout.EAST); // Add right door panel to the east
+        frame.add(leftDoorPanel, BorderLayout.WEST); // Add left door panel to the west
+        frame.add(new JScrollPane(mainPanel), BorderLayout.CENTER); // Add main panel to the center with scroll pane
+        frame.add(rightDoorPanel, BorderLayout.EAST); // Add right door panel to the east
 
         refreshMainPanel(); // Initial refresh to display products
     }
 
+    @Override
+    public void load() {
+        // Implement the load method
+    }
+
+    @Override
+    public void show() {
+        frame.setVisible(true);
+    }
+
+    @Override
+    public void close() {
+        frame.dispose();
+    }
+
+    @Override
+    public void save() {
+        // Implement the save method
+    }
+
+    // Method to load temperatures from CSV file
     private void loadTemperaturesFromCSV(String filePath) {
         try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
             String line;
@@ -216,6 +237,7 @@ public class RefrigeratorApp extends JFrame {
         }
     }
 
+    // Method to save temperatures to CSV file
     private void saveTemperaturesToCSV(String filePath) {
         try (PrintWriter writer = new PrintWriter(new FileWriter(filePath))) {
             writer.println("refrigeratorTemp,freezerTemp"); // Header
@@ -227,7 +249,7 @@ public class RefrigeratorApp extends JFrame {
 
     // Method to show the search dialog
     private void showSearchDialog() {
-        String productName = JOptionPane.showInputDialog(this, "Enter product name:", "Search Product", JOptionPane.PLAIN_MESSAGE);
+        String productName = JOptionPane.showInputDialog(frame, "Enter product name:", "Search Product", JOptionPane.PLAIN_MESSAGE);
         if (productName != null && !productName.trim().isEmpty()) {
             Optional<Product> product = GlobalVariables.products.stream()
                     .filter(p -> p.getName().equalsIgnoreCase(productName.trim()))
@@ -236,18 +258,16 @@ public class RefrigeratorApp extends JFrame {
             if (product.isPresent()) {
                 showProductSelectionDialog(product.get());
             } else {
-                JOptionPane.showMessageDialog(this, "Product not found.", "Search Result", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(frame, "Product not found.", "Search Result", JOptionPane.INFORMATION_MESSAGE);
             }
         }
     }
 
     // Method to return to the main menu
     private void returnToMainMenu() {
-        mainMenuFrame.setVisible(true); // Show the main menu frame
-        if (mainMenuFrame instanceof MainMenu) {
-            ((MainMenu) mainMenuFrame).updateDate(GlobalVariables.date); // Update the date in the main menu
-        }
-        setVisible(false); // Hide the refrigerator frame
+        mainMenu.updateDate(GlobalVariables.date); // Update the date in the main menu
+        frame.setVisible(false); // Hide the refrigerator frame
+        mainMenu.show(); // Show the main menu frame
     }
 
     // Method to discard expired products based on the current date
@@ -350,10 +370,15 @@ public class RefrigeratorApp extends JFrame {
 
         // Add product image if available in cache
         if (product.image() != null && !product.image().isEmpty()) {
+            System.out.println("Checking for product image in cache: " + product.image());
             ImageIcon scaledImageIcon = scaledImageCache.get(product.image());
+
+
             if (scaledImageIcon != null) {
                 JLabel productImageLabel = new JLabel(scaledImageIcon);
                 productPanel.add(productImageLabel, BorderLayout.CENTER);
+            } else {
+                System.err.println("Scaled image not found in cache for: " + product.image());
             }
         }
 
@@ -371,6 +396,7 @@ public class RefrigeratorApp extends JFrame {
         productDetailsLabel.setHorizontalTextPosition(SwingConstants.CENTER);
         productPanel.add(productDetailsLabel, BorderLayout.SOUTH);
 
+        // Use the outer class reference to call the method
         productPanel.addMouseListener(new java.awt.event.MouseAdapter() {
             @Override
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -381,8 +407,8 @@ public class RefrigeratorApp extends JFrame {
         return productPanel;
     }
 
-    private void showProductSelectionDialog(Product product) {
-        JDialog dialog = new JDialog(this, "Select Quantity", true);
+    public void showProductSelectionDialog(Product product) {
+        JDialog dialog = new JDialog(frame, "Select Quantity", true);
         dialog.setLayout(new BorderLayout());
         dialog.setSize(400, 300);
         dialog.getContentPane().setBackground(Color.WHITE); // Set background color to white
@@ -397,6 +423,7 @@ public class RefrigeratorApp extends JFrame {
 
         // Load product image
         ImageIcon productImageIcon = scaledImageCache.get(product.image());
+
         JLabel productImageLabel = new JLabel(productImageIcon);
 
         titlePanel.add(titleLabel);
@@ -471,7 +498,7 @@ public class RefrigeratorApp extends JFrame {
         });
 
         dialog.add(confirmButton, BorderLayout.SOUTH);
-        dialog.setLocationRelativeTo(this);
+        dialog.setLocationRelativeTo(frame);
         dialog.setVisible(true);
     }
 
@@ -504,7 +531,7 @@ public class RefrigeratorApp extends JFrame {
             saveProductsToCSV(GlobalVariables.CSV_FILE_PATH); // Save the updated product list to CSV
             refreshMainPanel(); // Refresh the main panel to update the display
         } else {
-            JOptionPane.showMessageDialog(this, "Invalid quantity selected.", "Error", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(frame, "Invalid quantity selected.", "Error", JOptionPane.ERROR_MESSAGE);
         }
     }
 
@@ -562,6 +589,11 @@ public class RefrigeratorApp extends JFrame {
 
         mainPanel.revalidate(); // Revalidate the main panel
         mainPanel.repaint(); // Repaint the main panel to reflect changes
+
+        System.out.println("Main panel refreshed with " + GlobalVariables.products.size() + " products.");
+        for (Product product : GlobalVariables.products) {
+            System.out.println("Product: " + product.getName() + ", Image: " + product.image());
+        }
     }
 
     // Method to update the refrigerator temperature
