@@ -336,9 +336,9 @@ public class RefrigeratorApp extends GenericGUI {
     // Method to save products to a CSV file
     private void saveProductsToCSV(String filePath) {
         try (PrintWriter writer = new PrintWriter(new FileWriter(filePath))) {
-            writer.println("Name,Expiration Date,Price,Amount"); // Header
+            writer.println("Name,Expiration Date,Amount"); // Header
             for (Product product : GlobalVariables.RefrigeratorProducts) {
-                writer.println(product.getName() + "," + product.getExpiration().getDay() + "." + product.getExpiration().getMonth() + "." + product.getExpiration().getYear() + "," + product.getPrice() + "," + product.getAmount());
+                writer.println(product.getName() + "," + product.getExpiration().getDay() + "." + product.getExpiration().getMonth() + "." + product.getExpiration().getYear() + ","  + "," + product.getAmount());
             }
         } catch (IOException e) {
             e.printStackTrace();
