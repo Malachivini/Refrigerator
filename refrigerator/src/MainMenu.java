@@ -7,39 +7,34 @@ import java.util.*; // Importing utility classes
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
-import java.io.BufferedReader; // Importing BufferedReader class
-import java.io.FileReader; // Importing FileReader class
-import java.io.IOException; // Importing IOException class
-import java.util.HashMap; // Importing HashMap class
-import java.util.Map; // Importing Map class
-import java.util.List; // Importing List class
+import java.util.List;
 
-public class MainMenu extends JFrame {
+public class MainMenu extends GenericGUI {
     private BufferedImage backgroundImage; // Variable to store background image
     private Map<String, BufferedImage> imageCache = new HashMap<>(); // Cache for product images
     private Map<String, ImageIcon> scaledImageCache = new HashMap<>(); // Cache for scaled product images
+    private Application app;
 
-    public MainMenu() {
-        setTitle("Main Menu"); // Setting the title of the window
-        setSize(400, 700); // Setting the size of the window
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Setting the default close operation
+    public MainMenu(Application app) {
+        super("Main Menu", 400, 700); // Call the super constructor
+        this.app = app;
 
-        loadProductsFromCSV(GlobalVariables.CSV_FILE_PATH, GlobalVariables.CSV_FILE_PATH2); // Load products from CSV files
+        
 
         // Show a loading indicator while images are being loaded
         JProgressBar progressBar = new JProgressBar();
         progressBar.setIndeterminate(true);
         progressBar.setStringPainted(true);
         progressBar.setString("Loading application...");
-        setContentPane(progressBar);
-        setVisible(true);
+        frame.setContentPane(progressBar);
+        frame.setVisible(true);
 
         // Load images asynchronously and wait for completion
         new Thread(() -> {
             loadImagesToCache();
             // Update UI on the Event Dispatch Thread after loading is complete
             SwingUtilities.invokeLater(() -> {
-                remove(progressBar);
+                frame.remove(progressBar);
                 initializeUI();
             });
         }).start();
@@ -54,7 +49,7 @@ public class MainMenu extends JFrame {
 
         BackgroundPanel backgroundPanel = new BackgroundPanel(); // Create a new BackgroundPanel
         backgroundPanel.setLayout(new GridBagLayout()); // Set the layout to GridBagLayout
-        setContentPane(backgroundPanel); // Set the content pane
+        frame.setContentPane(backgroundPanel); // Set the content pane
 
         GridBagConstraints gbc = new GridBagConstraints(); // Create GridBagConstraints
         gbc.insets = new Insets(10, 10, 10, 10); // Set spacing between buttons
@@ -77,7 +72,7 @@ public class MainMenu extends JFrame {
         gbc.gridy = 2; // Set grid y position
         backgroundPanel.add(goToRecipesButton, gbc); // Add "Go to Recipes" button to the panel
 
-        setVisible(true);
+        frame.setVisible(true);
     }
 
     public void updateDate(Date newDate) {
@@ -91,17 +86,17 @@ public class MainMenu extends JFrame {
     }
 
     private void openRefrigeratorScreen() {
-        RefrigeratorApp refrigeratorApp = new RefrigeratorApp(this, imageCache, scaledImageCache, GlobalVariables.date); // Create a new RefrigeratorApp instance
-        setVisible(false); // Set the main menu invisible
-        refrigeratorApp.setVisible(true); // Set the refrigerator app visible
+        frame.setVisible(false); // Set the main menu invisible
+        GlobalVariables.guis.get(Application.GUIType.REFRIGERATOR.ordinal()).show(); // Show the refrigerator app
     }
 
     private void openShoppingListScreen() {
-        JOptionPane.showMessageDialog(this, "Shopping List Screen (to be implemented)"); // Show a message dialog
+        GlobalVariables.guis.get(Application.GUIType.SHOPPING.ordinal()).show(); // Show the existing ShoppingCartGUI instance
+        frame.setVisible(false); // Set the main menu invisible
     }
 
     private void openRecipesScreen() {
-        JOptionPane.showMessageDialog(this, "Recipes Screen (to be implemented)"); // Show a message dialog
+        JOptionPane.showMessageDialog(frame, "Recipes Screen (to be implemented)"); // Show a message dialog
     }
 
     private class BackgroundPanel extends JPanel {
@@ -114,69 +109,12 @@ public class MainMenu extends JFrame {
         }
     }
 
-    // Method to load products from CSV files
-    private void loadProductsFromCSV(String filePath, String filePath2) {
-        Map<String, NutrientValues> nutrientValuesMap = Product.readNutrientValuesFromFile(); // Read nutrient values from file
-
-        try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
-            String line;
-            br.readLine(); // Skip the header line
-
-            while ((line = br.readLine()) != null) {
-                String[] values = line.split(",");
-
-                if (values.length < 4) { // Check if the line has the correct number of values
-                    System.err.println("Skipping invalid line: " + line);
-                    continue;
-                }
-
-                String name = values[0];
-                String[] dateParts = values[1].split("\\.");
-                int day = Integer.parseInt(dateParts[0]);
-                int month = Integer.parseInt(dateParts[1]);
-                int year = Integer.parseInt(dateParts[2]);
-                Date date = new Date(day, month, year);
-                double price = Double.parseDouble(values[2]);
-                double amount = Double.parseDouble(values[3]);
-
-                try (BufferedReader br2 = new BufferedReader(new FileReader(filePath2))) {
-                    String line2;
-                    br2.readLine(); // Skip the header line
-
-                    while ((line2 = br2.readLine()) != null) {
-                        String[] values2 = line2.split(",");
-                        if (values2.length < 11) { // Check if the line has the correct number of values
-                            System.err.println("Skipping invalid line: " + line2);
-                            continue;
-                        }
-
-                        if (values2[0].equals(name)) {
-                            String measurementUnit = values2[5];
-                            boolean consumable = Boolean.parseBoolean(values2[6]);
-                            String category = values2[7];
-                            Integer Quantity_sold = Integer.parseInt(values2[8]);
-                            Integer valid_Days = Integer.parseInt(values2[9]);
-                            String imgPath = values2[10];
-
-                            Product product = new Product(name, nutrientValuesMap.get(name), date, price, amount, measurementUnit, consumable, category, Quantity_sold, valid_Days, imgPath); // Create a new product
-                            GlobalVariables.products.add(product); // Add the product to the global list
-                        }
-                    }
-                } catch (IOException e) {
-                    e.printStackTrace(); // Print stack trace if an error occurs
-                }
-            }
-        } catch (IOException e) {
-            e.printStackTrace(); // Print stack trace if an error occurs
-        }
-    }
-
     // Method to load all product images into cache asynchronously
     private void loadImagesToCache() {
         ExecutorService executor = Executors.newFixedThreadPool(4); // Create a thread pool with 4 threads
 
         List<Product> productsBatch = new ArrayList<>();
-        for (Product product : GlobalVariables.products) {
+        for (Product product : GlobalVariables.allproducts) {
             if (product.image() != null && !product.image().isEmpty()) {
                 productsBatch.add(product);
                 if (productsBatch.size() == 10) {
@@ -205,6 +143,7 @@ public class MainMenu extends JFrame {
         for (Product product : batch) {
             try {
                 File imageFile = new File(product.image());
+                System.out.println("Loading image from: " + imageFile.getAbsolutePath());
                 if (!imageFile.exists()) {
                     System.err.println("Image file does not exist: " + product.image());
                     continue;
@@ -228,7 +167,23 @@ public class MainMenu extends JFrame {
         }
     }
 
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> new MainMenu().setVisible(true)); // Run the application
+    @Override
+    public void load() {
+        // Implement the load method
+    }
+
+    @Override
+    public void show() {
+        frame.setVisible(true);
+    }
+
+    @Override
+    public void close() {
+        frame.dispose();
+    }
+
+    @Override
+    public void save() {
+        // Implement the save method
     }
 }

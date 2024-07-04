@@ -18,6 +18,28 @@ public class Product {
     private Integer quantity_sold;
     private Integer valid_Days;
 
+    public Product(String name,NutrientValues nutrientValues, Date expiration,double amount, String measurementUnit,String imgPath, String category){ //refrigeretor
+        this.name = name;
+        this.expiration=expiration;
+        this.amount = amount;
+        this.nutrientValues=nutrientValues;
+        this.measurementUnit =measurementUnit;
+        this.imgPath =imgPath;
+        this.category=category;
+    }
+
+    public Product(String name, NutrientValues nutrientValues, double price, 
+    String measurementUnit, String category,Integer quantity_sold,Integer valid_Days, String imgPath){ //shopping
+        this.name = name;
+        this.nutrientValues = nutrientValues;
+        this.price = price;
+        this.measurementUnit = measurementUnit;
+        this.category = category;
+        this.quantity_sold = quantity_sold;
+        this.imgPath = imgPath;
+        this.valid_Days = valid_Days;
+    }
+
     // Constructor to initialize a Product object with all fields
     public Product(String name, NutrientValues nutrientValues, Date expiration, double price, double amount,
                    String measurementUnit, boolean consumable, String category,Integer quantity_sold,Integer valid_Days, String imgPath) {
@@ -138,7 +160,7 @@ public class Product {
             br.readLine(); // Skip header line
             while ((line = br.readLine()) != null) {
                 String[] values = line.split(",");
-                if (values.length == 11) { // Ensure the line has the correct number of values
+                if (values.length == 12) { // Ensure the line has the correct number of values
                     String productName = values[0];
                     double calories = Double.parseDouble(values[1]);
                     double protein = Double.parseDouble(values[2]);
