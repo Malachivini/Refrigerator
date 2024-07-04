@@ -223,7 +223,7 @@ public class ShoppingCartGUI extends GenericGUI {
                     JPanel productPanel = createProductPanel(product, 1);
                     productSubPanels.add(productPanel);
                     mainPanel.add(productPanel);
-                    RefrigeratorApp refrigeratorApp = (RefrigeratorApp) GlobalVariables.guis.get(Application.GUIType.REFRIGERATOR.ordinal());
+                    RefrigeratorApp refrigeratorApp = (RefrigeratorApp) GlobalVariables.guis.get(AppInterface.GUIType.REFRIGERATOR.ordinal());
                     refrigeratorApp.addProduct(product);
                 }
                 mainPanel.revalidate();
@@ -244,7 +244,7 @@ public class ShoppingCartGUI extends GenericGUI {
     // Method to return to the main menu
     private void returnToMainMenu() {
         System.out.println("Returning to MainMenu...");
-        GlobalVariables.guis.get(Application.GUIType.MAIN.ordinal()).show();
+        GlobalVariables.guis.get(AppInterface.GUIType.MAIN.ordinal()).show();
         frame.setVisible(false);
     }
 

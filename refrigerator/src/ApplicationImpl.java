@@ -1,17 +1,10 @@
 import java.util.HashMap;
 
-public class Application {
+public class ApplicationImpl implements AppInterface {
 
-    // Define the GUI types as an enum
-    public enum GUIType {
-        MAIN,
-        REFRIGERATOR,
-        SHOPPING,
-        RECEPIES
-    }
 
     // Constructor to initialize the list with GUI instances
-    public Application() {
+    public ApplicationImpl() {
         MainMenu mainMenu = new MainMenu(this);
         GlobalVariables.guis.add(mainMenu); // Add MainMenu instance
         GlobalVariables.guis.add(new RefrigeratorApp(mainMenu, new HashMap<>(), new HashMap<>(), GlobalVariables.date)); // Add RefrigeratorApp instance with MainMenu as parameter
@@ -23,20 +16,21 @@ public class Application {
     }
 
     // Method to load all GUI instances
+    @Override
     public void loadAll() {
-        int x = 0;
         for (GenericGUI gui : GlobalVariables.guis) {
             gui.load();
-            System.out.println(x++);
         }
     }
 
     // Method to show the GUI at the MAIN location
+    @Override
     public void showMain() {
         GlobalVariables.guis.get(GUIType.MAIN.ordinal()).show();
     }
 
     // Method to get the RefrigeratorApp instance
+    @Override
     public RefrigeratorApp getRefrigeratorApp() {
         return (RefrigeratorApp) GlobalVariables.guis.get(GUIType.REFRIGERATOR.ordinal());
     }
@@ -45,7 +39,7 @@ public class Application {
     public static void main(String[] args) {
         GlobalVariables.loadAllProductsFromCSV(GlobalVariables.INGREDIENTS);
         GlobalVariables.loadRefrigeratorProductsFromCSV(GlobalVariables.PRODUCT_IN_REFRIGERETOR); // Load refrigerator products from CSV file
-        Application app = new Application();
+        ApplicationImpl app = new ApplicationImpl();
         app.loadAll();
         app.showMain();
     }

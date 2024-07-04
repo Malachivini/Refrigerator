@@ -1,26 +1,27 @@
-import javax.swing.*; // Importing Swing components
-import java.awt.*; // Importing AWT components
-import java.awt.image.BufferedImage; // Importing BufferedImage class
-import java.io.*; // Importing I/O classes
-import javax.imageio.ImageIO; // Importing ImageIO class
-import java.util.*; // Importing utility classes
+import javax.swing.*;
+import java.awt.*;
+import java.awt.image.BufferedImage;
+import java.io.*;
+import javax.imageio.ImageIO;
+import java.util.*;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 import java.util.List;
 
 public class MainMenu extends GenericGUI {
-    private BufferedImage backgroundImage; // Variable to store background image
-    private Map<String, BufferedImage> imageCache = new HashMap<>(); // Cache for product images
-    private Map<String, ImageIcon> scaledImageCache = new HashMap<>(); // Cache for scaled product images
-    private Application app;
+    private BufferedImage backgroundImage;
+    private Map<String, BufferedImage> imageCache = new HashMap<>();
+    private Map<String, ImageIcon> scaledImageCache = new HashMap<>();
+    private AppInterface app;
 
-    public MainMenu(Application app) {
-        super("Main Menu", 400, 700); // Call the super constructor
+    public MainMenu(AppInterface app) {
+        super("Main Menu", 400, 700);
         this.app = app;
+    }
 
-        
-
+    @Override
+    public void load() {
         // Show a loading indicator while images are being loaded
         JProgressBar progressBar = new JProgressBar();
         progressBar.setIndeterminate(true);
@@ -42,76 +43,73 @@ public class MainMenu extends GenericGUI {
 
     private void initializeUI() {
         try {
-            backgroundImage = ImageIO.read(new File("refrigerator\\src\\photos\\refr.png")); // Load the background image
+            backgroundImage = ImageIO.read(new File("refrigerator\\src\\photos\\refr.png"));
         } catch (IOException e) {
-            e.printStackTrace(); // Print stack trace if an error occurs
+            e.printStackTrace();
         }
 
-        BackgroundPanel backgroundPanel = new BackgroundPanel(); // Create a new BackgroundPanel
-        backgroundPanel.setLayout(new GridBagLayout()); // Set the layout to GridBagLayout
-        frame.setContentPane(backgroundPanel); // Set the content pane
+        BackgroundPanel backgroundPanel = new BackgroundPanel();
+        backgroundPanel.setLayout(new GridBagLayout());
+        frame.setContentPane(backgroundPanel);
 
-        GridBagConstraints gbc = new GridBagConstraints(); // Create GridBagConstraints
-        gbc.insets = new Insets(10, 10, 10, 10); // Set spacing between buttons
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.insets = new Insets(10, 10, 10, 10);
 
-        JButton goToRefrigeratorButton = createButton("Go to Refrigerator"); // Create "Go to Refrigerator" button
-        JButton goToShoppingListButton = createButton("Go to Shopping List"); // Create "Go to Shopping List" button
-        JButton goToRecipesButton = createButton("Go to Recipes"); // Create "Go to Recipes" button
+        JButton goToRefrigeratorButton = createButton("Go to Refrigerator");
+        JButton goToShoppingListButton = createButton("Go to Shopping List");
+        JButton goToRecipesButton = createButton("Go to Recipes");
 
-        goToRefrigeratorButton.addActionListener(e -> openRefrigeratorScreen()); // Add action listener to "Go to Refrigerator" button
-        goToShoppingListButton.addActionListener(e -> openShoppingListScreen()); // Add action listener to "Go to Shopping List" button
-        goToRecipesButton.addActionListener(e -> openRecipesScreen()); // Add action listener to "Go to Recipes" button
+        goToRefrigeratorButton.addActionListener(e -> openRefrigeratorScreen());
+        goToShoppingListButton.addActionListener(e -> openShoppingListScreen());
+        goToRecipesButton.addActionListener(e -> openRecipesScreen());
 
-        gbc.gridx = 0; // Set grid x position
-        gbc.gridy = 0; // Set grid y position
-        backgroundPanel.add(goToRefrigeratorButton, gbc); // Add "Go to Refrigerator" button to the panel
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        backgroundPanel.add(goToRefrigeratorButton, gbc);
 
-        gbc.gridy = 1; // Set grid y position
-        backgroundPanel.add(goToShoppingListButton, gbc); // Add "Go to Shopping List" button to the panel
+        gbc.gridy = 1;
+        backgroundPanel.add(goToShoppingListButton, gbc);
 
-        gbc.gridy = 2; // Set grid y position
-        backgroundPanel.add(goToRecipesButton, gbc); // Add "Go to Recipes" button to the panel
-
-        frame.setVisible(true);
+        gbc.gridy = 2;
+        backgroundPanel.add(goToRecipesButton, gbc);
     }
 
     public void updateDate(Date newDate) {
-        GlobalVariables.date = newDate; // Update the global date variable
+        GlobalVariables.date = newDate;
     }
 
     private JButton createButton(String text) {
-        JButton button = new JButton(text); // Create a new button with the specified text
-        button.setPreferredSize(new Dimension(150, 30)); // Set the preferred size of the button
-        return button; // Return the created button
+        JButton button = new JButton(text);
+        button.setPreferredSize(new Dimension(150, 30));
+        return button;
     }
 
     private void openRefrigeratorScreen() {
-        frame.setVisible(false); // Set the main menu invisible
-        GlobalVariables.guis.get(Application.GUIType.REFRIGERATOR.ordinal()).show(); // Show the refrigerator app
+        frame.setVisible(false);
+        GlobalVariables.guis.get(AppInterface.GUIType.REFRIGERATOR.ordinal()).show();
     }
 
     private void openShoppingListScreen() {
-        GlobalVariables.guis.get(Application.GUIType.SHOPPING.ordinal()).show(); // Show the existing ShoppingCartGUI instance
-        frame.setVisible(false); // Set the main menu invisible
+        GlobalVariables.guis.get(AppInterface.GUIType.SHOPPING.ordinal()).show();
+        frame.setVisible(false);
     }
 
     private void openRecipesScreen() {
-        JOptionPane.showMessageDialog(frame, "Recipes Screen (to be implemented)"); // Show a message dialog
+        JOptionPane.showMessageDialog(frame, "Recipes Screen (to be implemented)");
     }
 
     private class BackgroundPanel extends JPanel {
         @Override
         protected void paintComponent(Graphics g) {
-            super.paintComponent(g); // Call the superclass method
+            super.paintComponent(g);
             if (backgroundImage != null) {
-                g.drawImage(backgroundImage, 0, 0, getWidth(), getHeight(), this); // Draw the background image
+                g.drawImage(backgroundImage, 0, 0, getWidth(), getHeight(), this);
             }
         }
     }
 
-    // Method to load all product images into cache asynchronously
     private void loadImagesToCache() {
-        ExecutorService executor = Executors.newFixedThreadPool(4); // Create a thread pool with 4 threads
+        ExecutorService executor = Executors.newFixedThreadPool(4);
 
         List<Product> productsBatch = new ArrayList<>();
         for (Product product : GlobalVariables.allproducts) {
@@ -154,22 +152,16 @@ public class MainMenu extends GenericGUI {
                     continue;
                 }
                 synchronized (imageCache) {
-                    imageCache.put(product.image(), image); // Save the image in the cache
+                    imageCache.put(product.image(), image);
 
-                    // Create and cache scaled image
                     Image scaledImage = image.getScaledInstance(100, 100, Image.SCALE_SMOOTH);
                     scaledImageCache.put(product.image(), new ImageIcon(scaledImage));
                 }
             } catch (IOException e) {
                 System.err.println("Error reading image file: " + product.image());
-                e.printStackTrace(); // Print stack trace if an error occurs
+                e.printStackTrace();
             }
         }
-    }
-
-    @Override
-    public void load() {
-        // Implement the load method
     }
 
     @Override
@@ -184,6 +176,12 @@ public class MainMenu extends GenericGUI {
 
     @Override
     public void save() {
-        // Implement the save method
+    }
+
+    public static void main(String[] args) {
+        AppInterface app = new ApplicationImpl(); // Use ApplicationImpl instead of Application
+        MainMenu mainMenu = new MainMenu(app);
+        mainMenu.load();
+        mainMenu.show();
     }
 }

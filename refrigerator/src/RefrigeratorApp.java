@@ -9,7 +9,6 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 import java.util.List;
 
-
 public class RefrigeratorApp extends GenericGUI {
     private BufferedImage leftDoorImage; // Image for the left door
     private BufferedImage rightDoorImage; // Image for the right door
@@ -24,8 +23,11 @@ public class RefrigeratorApp extends GenericGUI {
     private RoundLabel refrigeratorTempLabel; // Label to display refrigerator temperature
     private RoundLabel freezerTempLabel; // Label to display freezer temperature
 
-    private static final String REFRIGETETOR_CSV = "refrigerator\\Refrigeretor.csv";
+    private static final String REFRIGERATOR_CSV = "refrigerator\\Refrigeretor.csv";
     private MainMenu mainMenu; // Reference to MainMenu
+
+    private JPanel consumableProductsPanel; // Panel to display consumable products
+    private JComboBox<String> consumableProductsComboBox; // ComboBox for consumable products
 
     // Constructor to initialize the Refrigerator application
     public RefrigeratorApp(MainMenu mainMenu, Map<String, BufferedImage> imageCache, Map<String, ImageIcon> scaledImageCache, Date date) {
@@ -35,10 +37,13 @@ public class RefrigeratorApp extends GenericGUI {
         this.scaledImageCache = scaledImageCache; // Initialize the scaled image cache
         GlobalVariables.date = date; // Initialize the date
 
-        loadTemperaturesFromCSV(REFRIGETETOR_CSV); // Load temperatures from CSV file
+        loadTemperaturesFromCSV(REFRIGERATOR_CSV); // Load temperatures from CSV file
 
         loadDoorImages("refrigerator\\src\\photos\\refr3.png"); // Load door images
+    }
 
+    @Override
+    public void load() {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE); // Set the default close operation
         frame.setLayout(new BorderLayout()); // Set the layout to BorderLayout
 
@@ -105,6 +110,21 @@ public class RefrigeratorApp extends GenericGUI {
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        // Create and configure the consumable products panel
+        consumableProductsPanel = new JPanel(new BorderLayout());
+        consumableProductsPanel.setBounds(15, 275, 160, 50); // Set position and size of the consumable products panel
+        consumableProductsPanel.setBackground(Color.LIGHT_GRAY);
+
+        JLabel consumableProductsLabel = new JLabel("Products missing");
+        consumableProductsLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        consumableProductsPanel.add(consumableProductsLabel, BorderLayout.NORTH);
+
+        consumableProductsComboBox = new JComboBox<>();
+        consumableProductsComboBox.setMaximumRowCount(10);
+        consumableProductsPanel.add(consumableProductsComboBox, BorderLayout.CENTER);
+
+        leftDoorPanel.add(consumableProductsPanel); // Add consumable products panel to the left door panel
 
         // Create and configure the right door panel
         JPanel rightDoorPanel = new JPanel() {
@@ -202,18 +222,11 @@ public class RefrigeratorApp extends GenericGUI {
         frame.add(rightDoorPanel, BorderLayout.EAST); // Add right door panel to the east
 
         loadImagesToCache(); // Load images into cache
-
+        refreshConsumableProducts(); // Refresh consumable products
         refreshMainPanel(); // Initial refresh to display products
     }
-
-    @Override
-    public void load() {
-        // Implement the load method
-    }
-
     @Override
     public void show() {
-        refreshMainPanel(); // Refresh the main panel to update the display
         frame.setVisible(true);
     }
 
@@ -272,7 +285,7 @@ public class RefrigeratorApp extends GenericGUI {
 
     // Method to return to the main menu
     private void returnToMainMenu() {
-        GlobalVariables.guis.get(Application.GUIType.MAIN.ordinal()).show(); // Show the main menu
+        GlobalVariables.guis.get(AppInterface.GUIType.MAIN.ordinal()).show(); // Show the main menu
         frame.setVisible(false); // Hide the refrigerator frame
     }
 
@@ -338,7 +351,7 @@ public class RefrigeratorApp extends GenericGUI {
         try (PrintWriter writer = new PrintWriter(new FileWriter(filePath))) {
             writer.println("Name,Expiration Date,Amount"); // Header
             for (Product product : GlobalVariables.RefrigeratorProducts) {
-                writer.println(product.getName() + "," + product.getExpiration().getDay() + "." + product.getExpiration().getMonth() + "." + product.getExpiration().getYear() + ","  + "," + product.getAmount());
+                writer.println(product.getName() + "," + product.getExpiration().getDay() + "." + product.getExpiration().getMonth() + "." + product.getExpiration().getYear() + "," + product.getAmount());
             }
         } catch (IOException e) {
             e.printStackTrace();
@@ -548,17 +561,16 @@ public class RefrigeratorApp extends GenericGUI {
         double totalCarbohydrates = 0;
 
         for (Product product : GlobalVariables.RefrigeratorProducts) {
-            if(product.getMeasurementUnit().equals("USE_QUANTITY")){
-                totalCalories += product.getNutrientValues().getCalories()*product.getAmount();
-                totalProtein += product.getNutrientValues().getProtein()*product.getAmount();
-                totalFat += product.getNutrientValues().getFat()*product.getAmount();
-                totalCarbohydrates += product.getNutrientValues().getCarbohydrates()*product.getAmount();
-            }
-            else if(product.getMeasurementUnit().equals("USE_GRAMS")||product.getMeasurementUnit().equals("USE_LITER")){
-                totalCalories += product.getNutrientValues().getCalories()*(product.getAmount()/100);
-                totalProtein += product.getNutrientValues().getProtein()*(product.getAmount()/100);
-                totalFat += product.getNutrientValues().getFat()*(product.getAmount()/100);
-                totalCarbohydrates += product.getNutrientValues().getCarbohydrates()*(product.getAmount()/100);
+            if (product.getMeasurementUnit().equals("USE_QUANTITY")) {
+                totalCalories += product.getNutrientValues().getCalories() * product.getAmount();
+                totalProtein += product.getNutrientValues().getProtein() * product.getAmount();
+                totalFat += product.getNutrientValues().getFat() * product.getAmount();
+                totalCarbohydrates += product.getNutrientValues().getCarbohydrates() * product.getAmount();
+            } else if (product.getMeasurementUnit().equals("USE_GRAMS") || product.getMeasurementUnit().equals("USE_LITER")) {
+                totalCalories += product.getNutrientValues().getCalories() * (product.getAmount() / 100);
+                totalProtein += product.getNutrientValues().getProtein() * (product.getAmount() / 100);
+                totalFat += product.getNutrientValues().getFat() * (product.getAmount() / 100);
+                totalCarbohydrates += product.getNutrientValues().getCarbohydrates() * (product.getAmount() / 100);
             }
         }
 
@@ -601,36 +613,61 @@ public class RefrigeratorApp extends GenericGUI {
         }
     }
 
+    private void refreshConsumableProducts() {
+        consumableProductsComboBox.removeAllItems(); // Clear existing items
+        boolean flag;
+        for (Product product : GlobalVariables.allproducts) {
+            flag = true;
+            if (!product.isConsumable()) {
+                for (Product product2 : GlobalVariables.RefrigeratorProducts) {
+                    if (product.getName().equals(product2.getName())) {
+                        flag = false;
+                        break;
+                    }
+                }
+                if (flag) {
+                    consumableProductsComboBox.addItem(product.getName());
+                }
+            }
+        }
+        if (consumableProductsComboBox.getItemCount() == 0) {
+            consumableProductsComboBox.addItem("No products less");
+        }
+    }
+    
+
     // Method to update the refrigerator temperature
     private void updateRefrigeratorTemp(int change) {
-        if(refrigeratorTemp==12){
-            if(change==1){
+        if (refrigeratorTemp == 12) {
+            if (change == 1) {
                 return;
             }
-        }if(refrigeratorTemp==1){
-            if(change==-1){
+        }
+        if (refrigeratorTemp == 1) {
+            if (change == -1) {
                 return;
             }
         }
         refrigeratorTemp += change;
         refrigeratorTempLabel.setText(refrigeratorTemp + "°");
-        saveTemperaturesToCSV(REFRIGETETOR_CSV); // Save the updated temperatures to CSV
+        saveTemperaturesToCSV(REFRIGERATOR_CSV); // Save the updated temperatures to CSV
     }
 
     // Method to update the freezer temperature
     private void updateFreezerTemp(int change) {
-        if(freezerTemp==-13){
-            if(change==1){
+        if (freezerTemp == -13) {
+            if (change == 1) {
                 return;
             }
-        }if(freezerTemp==-23){
-            if(change==-1){
+        }
+        if (freezerTemp == -23) {
+            if (change == -1) {
                 return;
             }
         }
         freezerTemp += change;
         freezerTempLabel.setText(freezerTemp + "°");
-        saveTemperaturesToCSV(REFRIGETETOR_CSV); // Save the updated temperatures to CSV
+        saveTemperaturesToCSV(REFRIGERATOR_CSV); // Save the updated temperatures to CSV
     }
 
     // Method to load images into cache
@@ -693,16 +730,15 @@ public class RefrigeratorApp extends GenericGUI {
 
     // Method to add a new product to the CSV file and the main panel
     public void addProduct(Product newProduct) {
-    // Add the new product to the global product list
-    GlobalVariables.RefrigeratorProducts.add(newProduct);
+        // Add the new product to the global product list
+        GlobalVariables.RefrigeratorProducts.add(newProduct);
 
-    // Save the updated product list to CSV
-    saveProductsToCSV(GlobalVariables.PRODUCT_IN_REFRIGERETOR);
+        // Save the updated product list to CSV
+        saveProductsToCSV(GlobalVariables.PRODUCT_IN_REFRIGERETOR);
 
-    // Refresh the main panel to update the display
-    refreshMainPanel();
+        // Refresh the main panel to update the display
+        refreshMainPanel();
     }
-
 
     public static void main(String[] args) {
         // This main method is not needed because the RefrigeratorApp will be launched from MainMenu
