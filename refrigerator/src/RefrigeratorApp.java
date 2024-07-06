@@ -24,15 +24,13 @@ public class RefrigeratorApp extends GenericGUI {
     private RoundLabel freezerTempLabel; // Label to display freezer temperature
 
     private static final String REFRIGERATOR_CSV = "refrigerator\\Refrigeretor.csv";
-    private MainMenu mainMenu; // Reference to MainMenu
 
     private JPanel consumableProductsPanel; // Panel to display consumable products
     private JComboBox<String> consumableProductsComboBox; // ComboBox for consumable products
 
     // Constructor to initialize the Refrigerator application
-    public RefrigeratorApp(MainMenu mainMenu, Map<String, BufferedImage> imageCache, Map<String, ImageIcon> scaledImageCache, Date date) {
+    public RefrigeratorApp(Map<String, BufferedImage> imageCache, Map<String, ImageIcon> scaledImageCache, Date date) {
         super("Refrigerator", 1100, 1000);
-        this.mainMenu = mainMenu; // Initialize the MainMenu reference
         this.imageCache = imageCache; // Initialize the image cache
         this.scaledImageCache = scaledImageCache; // Initialize the scaled image cache
         GlobalVariables.date = date; // Initialize the date

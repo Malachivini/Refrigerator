@@ -17,14 +17,13 @@ public class ShoppingCartGUI extends GenericGUI {
     private JTextField searchField;
     private JComboBox<String> searchBox;
     private JLabel moneyLabel;
-    private MainMenu mainMenu; // Reference to MainMenu
 
-    public ShoppingCartGUI(String frameName, int frameWidth, int frameHeight, MainMenu mainMenu) {
+    public ShoppingCartGUI(String frameName, int frameWidth, int frameHeight) {
         super(frameName, frameWidth, frameHeight);
         this.selectedProducts = new ArrayList<>();
         this.quantities = new ArrayList<>();
         this.productSubPanels = new ArrayList<>();
-        this.mainMenu = mainMenu; // Initialize the MainMenu reference
+
     }
 
     @Override
@@ -249,7 +248,7 @@ public class ShoppingCartGUI extends GenericGUI {
     }
 
     public static void main(String[] args) {
-        ShoppingCartGUI gui = new ShoppingCartGUI("Shopping Cart", 400, 600, null); // Pass null for MainMenu in standalone mode
+        ShoppingCartGUI gui = new ShoppingCartGUI("Shopping Cart", 400, 600); // Pass null for MainMenu in standalone mode
         gui.load();
         gui.show();
 

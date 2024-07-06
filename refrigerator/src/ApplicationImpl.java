@@ -7,11 +7,11 @@ public class ApplicationImpl implements AppInterface {
     public ApplicationImpl() {
         MainMenu mainMenu = new MainMenu(this);
         GlobalVariables.guis.add(mainMenu); // Add MainMenu instance
-        GlobalVariables.guis.add(new RefrigeratorApp(mainMenu, new HashMap<>(), new HashMap<>(), GlobalVariables.date)); // Add RefrigeratorApp instance with MainMenu as parameter
+        GlobalVariables.guis.add(new RefrigeratorApp(new HashMap<>(), new HashMap<>(), GlobalVariables.date)); // Add RefrigeratorApp instance with MainMenu as parameter
 
         // Add ShoppingCartGUI instances with reference to MainMenu
         for (int i = 0; i < 2; i++) {
-            GlobalVariables.guis.add(new ShoppingCartGUI("Shopping Cart " + i, 400, 600, mainMenu)); // Pass mainMenu reference
+            GlobalVariables.guis.add(new ShoppingCartGUI("Shopping Cart " + i, 400, 600)); // Pass mainMenu reference
         }
     }
 
