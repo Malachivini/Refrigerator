@@ -1,5 +1,9 @@
 import com.sun.java.accessibility.util.GUIInitializedListener;
 import javax.swing.*;
+import javax.swing.border.EmptyBorder;
+import javax.swing.border.LineBorder;
+import javax.swing.plaf.basic.BasicButtonUI;
+import javax.swing.plaf.basic.BasicComboBoxUI;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -29,24 +33,19 @@ public class ShoppingCartGUI extends GenericGUI {
         this.selectedProducts = new ArrayList<>();
         this.quantities = new ArrayList<>();
         this.productSubPanels = new ArrayList<>();
-
     }
 
     @Override
     public void load() {
-        
         // Load initial products from the global list
         System.out.println("Loading initial products...");
         loadListFromCSV(GlobalVariables.SHOP_LIST);
-        // for (int i = 0; i < 3; i++) {
-        //     selectedProducts.add(GlobalVariables.allproducts.get(i));
-        //     quantities.add(i + 1); // Quantities 1, 2, 3
-        // }
 
         // Create main panel with fixed height for subpanels and scrolling
         mainPanel = new JPanel();
         mainPanel.setLayout(new BoxLayout(mainPanel, BoxLayout.Y_AXIS));
-        mainPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
+        mainPanel.setBorder(BorderFactory.createLineBorder(new Color(60, 63, 65), 1));
+        mainPanel.setBackground(Color.WHITE);
 
         // Create product panels for each selected product
         for (int i = 0; i < selectedProducts.size(); i++) {
@@ -70,10 +69,10 @@ public class ShoppingCartGUI extends GenericGUI {
         });
 
         searchBox = new JComboBox<>();
+        searchBox.setUI(new CustomComboBoxUI());
         updateSearchBox(""); // Initialize with all products
-        System.out.println("Loading ...");
 
-        JButton addButton = new JButton("Add");
+        JButton addButton = createStyledButton("Add");
         addButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -81,28 +80,28 @@ public class ShoppingCartGUI extends GenericGUI {
             }
         });
 
-       
-
         JPanel searchPanel = new JPanel();
         searchPanel.setLayout(new BoxLayout(searchPanel, BoxLayout.X_AXIS));
         searchPanel.add(searchField);
         searchPanel.add(searchBox);
         searchPanel.add(addButton);
+        searchPanel.setBackground(Color.WHITE);
 
         // Create subpanel
         JPanel subPanel = new JPanel();
         subPanel.setLayout(new FlowLayout(FlowLayout.RIGHT));
-        subPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
+        subPanel.setBorder(BorderFactory.createLineBorder(new Color(60, 63, 65), 1));
+        subPanel.setBackground(Color.WHITE);
 
-        JButton buyAllButton = new JButton("Buy All");
-        JButton cleanButton = new JButton("Clean");
+        JButton buyAllButton = createStyledButton("Buy All");
+        JButton cleanButton = createStyledButton("Clean");
         moneyLabel = new JLabel("$$$$$$");
 
         // Add action listener to return to MainMenu
-        JButton backButton = new JButton("Back to Main Menu");
+        JButton backButton = createStyledButton("Back to Main Menu");
         backButton.addActionListener(e -> returnToMainMenu());
-        
-         // Add action listener to clean button
+
+        // Add action listener to clean button
         cleanButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -110,7 +109,7 @@ public class ShoppingCartGUI extends GenericGUI {
             }
         });
 
-         // Add action listener to buy all button
+        // Add action listener to buy all button
         buyAllButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -120,8 +119,9 @@ public class ShoppingCartGUI extends GenericGUI {
 
         subPanel.add(buyAllButton);
         subPanel.add(cleanButton);
-        subPanel.add(moneyLabel);
         subPanel.add(backButton);
+        subPanel.add(Box.createHorizontalGlue());  // Add glue to push the money label to the right
+        subPanel.add(moneyLabel);
 
         // Add components to frame
         frame.getContentPane().add(searchPanel, BorderLayout.NORTH);
@@ -130,6 +130,63 @@ public class ShoppingCartGUI extends GenericGUI {
 
         // Update total price initially
         updateTotalPrice();
+    }
+
+    private JButton createStyledButton(String text) {
+        JButton button = new JButton(text);
+        button.setBackground(new Color(60, 63, 65));
+        button.setForeground(Color.WHITE);
+        button.setFont(new Font("Arial", Font.BOLD, 14));
+        button.setFocusPainted(false);
+        button.setBorder(new EmptyBorder(10, 20, 10, 20));
+        button.setUI(new BasicButtonUI());
+        button.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                button.setBackground(new Color(75, 110, 175));
+            }
+
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                button.setBackground(new Color(60, 63, 65));
+            }
+        });
+        return button;
+    }
+
+    private class CustomComboBoxUI extends BasicComboBoxUI {
+        @Override
+        protected JButton createArrowButton() {
+            JButton button = new JButton();
+            button.setBackground(new Color(60, 63, 65));
+            button.setForeground(Color.WHITE);
+            button.setBorder(BorderFactory.createLineBorder(new Color(60, 63, 65)));
+            button.setContentAreaFilled(false);
+            button.setFocusPainted(false);
+            button.setOpaque(true);
+            button.setUI(new BasicButtonUI() {
+                @Override
+                public void paint(Graphics g, JComponent c) {
+                    super.paint(g, c);
+                    int width = c.getWidth();
+                    int height = c.getHeight();
+                    int arrowWidth = 10;
+                    int arrowHeight = 5;
+                    int x = (width - arrowWidth) / 2;
+                    int y = (height - arrowHeight) / 2;
+                    Graphics2D g2 = (Graphics2D) g;
+                    g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+                    g2.setColor(Color.WHITE);
+                    g2.fillPolygon(new int[]{x, x + arrowWidth / 2, x + arrowWidth}, new int[]{y, y + arrowHeight, y}, 3);
+                }
+            });
+            return button;
+        }
+
+        @Override
+        public void installUI(JComponent c) {
+            super.installUI(c);
+            comboBox.setBorder(BorderFactory.createLineBorder(new Color(60, 63, 65)));
+            comboBox.setBackground(Color.WHITE);
+        }
     }
 
     private void cleanCSV(String csvFilePath) {
@@ -205,7 +262,7 @@ public class ShoppingCartGUI extends GenericGUI {
             }
         }
     }
-    
+
     @Override
     public void show() {
         System.out.println("Showing ShoppingCartGUI...");
@@ -225,10 +282,11 @@ public class ShoppingCartGUI extends GenericGUI {
     private JPanel createProductPanel(Product product, int quantity) {
         JPanel productPanel = new JPanel();
         productPanel.setLayout(new BorderLayout());
-        productPanel.setBorder(BorderFactory.createLineBorder(Color.BLACK, 1));
+        productPanel.setBorder(BorderFactory.createLineBorder(new Color(60, 63, 65), 1));
         productPanel.setPreferredSize(new Dimension(0, 50)); // Fixed height, variable width
         productPanel.setMaximumSize(new Dimension(Integer.MAX_VALUE, 50));
         productPanel.setMinimumSize(new Dimension(0, 50));
+        productPanel.setBackground(Color.WHITE);
 
         JPanel detailsPanel = new JPanel(new FlowLayout(FlowLayout.LEFT));
         JLabel nameLabel = new JLabel(product.getName());
@@ -244,10 +302,11 @@ public class ShoppingCartGUI extends GenericGUI {
         detailsPanel.add(imageLabel);
         detailsPanel.add(nameLabel);
         detailsPanel.add(priceLabel);
+        detailsPanel.setBackground(Color.WHITE);
 
         JPanel controlPanel = new JPanel(new FlowLayout(FlowLayout.RIGHT));
-        JButton plusButton = new JButton("+");
-        JButton minusButton = new JButton("-");
+        JButton plusButton = createStyledButton("+");
+        JButton minusButton = createStyledButton("-");
 
         // Plus button action listener
         plusButton.addActionListener(e -> {
@@ -282,6 +341,7 @@ public class ShoppingCartGUI extends GenericGUI {
         controlPanel.add(quantityLabel);
         controlPanel.add(plusButton);
         controlPanel.add(minusButton);
+        controlPanel.setBackground(Color.WHITE);
 
         productPanel.add(detailsPanel, BorderLayout.CENTER);
         productPanel.add(controlPanel, BorderLayout.EAST);
@@ -354,13 +414,13 @@ public class ShoppingCartGUI extends GenericGUI {
             Product product = selectedProducts.get(i);
             int quantity = quantities.get(i);
             for (int j = 0; j < quantity; j++) {
-                Product pr = new Product(product.getName(),product.getNutrientValues(), GlobalVariables.date.addDays(product.getvalid_Days()),product.getQuantity_sold(), product.getMeasurementUnit(), product.getImgPath(), product.getCategory());
+                Product pr = new Product(product.getName(), product.getNutrientValues(), GlobalVariables.date.addDays(product.getvalid_Days()), product.getQuantity_sold(), product.getMeasurementUnit(), product.getImgPath(), product.getCategory());
                 GlobalVariables.RefrigeratorProducts.add(pr);
             }
         }
         ((RefrigeratorApp) GlobalVariables.guis.get(AppInterface.GUIType.REFRIGERATOR.ordinal())).saveProductsToCSV(GlobalVariables.PRODUCT_IN_REFRIGERETOR);
         ((RefrigeratorApp) GlobalVariables.guis.get(AppInterface.GUIType.REFRIGERATOR.ordinal())).refreshMainPanel();
-        
+
         // After buying all, clear the shopping cart
         cleanShoppingCart();
     }
@@ -373,6 +433,47 @@ public class ShoppingCartGUI extends GenericGUI {
         moneyLabel.setText(String.format("$%.2f", totalPrice));
     }
 
+
+    public void addOrUpdateProduct(String productName, int quantity) {
+        Optional<Product> productOpt = GlobalVariables.allproducts.stream()
+            .filter(p -> p.getName().equalsIgnoreCase(productName))
+            .findFirst();
+    
+        if (productOpt.isPresent()) {
+            Product product = productOpt.get();
+            int index = selectedProducts.indexOf(product);
+    
+            if (index >= 0) {
+                // Product exists in the cart, update the quantity
+                int currentQuantity = quantities.get(index);
+                quantities.set(index, currentQuantity + quantity);
+    
+                JPanel productPanel = productSubPanels.get(index);
+                JLabel quantityLabel = (JLabel) ((JPanel) productPanel.getComponent(1)).getComponent(0);
+                quantityLabel.setText(String.valueOf(currentQuantity + quantity));
+    
+                updateCSV(GlobalVariables.SHOP_LIST, product.getName(), currentQuantity + quantity);
+            } else {
+                // Product does not exist in the cart, add new entry
+                selectedProducts.add(product);
+                quantities.add(quantity);
+    
+                JPanel productPanel = createProductPanel(product, quantity);
+                productSubPanels.add(productPanel);
+                mainPanel.add(productPanel);
+    
+                addProductToCSV(GlobalVariables.SHOP_LIST, product.getName(), quantity);
+            }
+    
+            mainPanel.revalidate();
+            mainPanel.repaint();
+            updateTotalPrice();
+        } else {
+            System.err.println("Product not found in global list: " + productName);
+        }
+    }
+    
+
     // Method to return to the main menu
     private void returnToMainMenu() {
         System.out.println("Returning to MainMenu...");
@@ -384,6 +485,6 @@ public class ShoppingCartGUI extends GenericGUI {
         ShoppingCartGUI gui = new ShoppingCartGUI("Shopping Cart", 400, 600); // Pass null for MainMenu in standalone mode
         gui.load();
         gui.show();
-
     }
 }
+
