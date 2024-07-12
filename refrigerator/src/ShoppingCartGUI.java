@@ -5,8 +5,14 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 public class ShoppingCartGUI extends GenericGUI {
@@ -31,10 +37,11 @@ public class ShoppingCartGUI extends GenericGUI {
         
         // Load initial products from the global list
         System.out.println("Loading initial products...");
-        for (int i = 0; i < 3; i++) {
-            selectedProducts.add(GlobalVariables.allproducts.get(i));
-            quantities.add(i + 1); // Quantities 1, 2, 3
-        }
+        loadListFromCSV(GlobalVariables.SHOP_LIST);
+        // for (int i = 0; i < 3; i++) {
+        //     selectedProducts.add(GlobalVariables.allproducts.get(i));
+        //     quantities.add(i + 1); // Quantities 1, 2, 3
+        // }
 
         // Create main panel with fixed height for subpanels and scrolling
         mainPanel = new JPanel();
@@ -74,6 +81,8 @@ public class ShoppingCartGUI extends GenericGUI {
             }
         });
 
+       
+
         JPanel searchPanel = new JPanel();
         searchPanel.setLayout(new BoxLayout(searchPanel, BoxLayout.X_AXIS));
         searchPanel.add(searchField);
@@ -93,6 +102,22 @@ public class ShoppingCartGUI extends GenericGUI {
         JButton backButton = new JButton("Back to Main Menu");
         backButton.addActionListener(e -> returnToMainMenu());
         
+         // Add action listener to clean button
+        cleanButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                cleanShoppingCart();
+            }
+        });
+
+         // Add action listener to buy all button
+        buyAllButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                buyAllProducts();
+            }
+        });
+
         subPanel.add(buyAllButton);
         subPanel.add(cleanButton);
         subPanel.add(moneyLabel);
@@ -107,6 +132,80 @@ public class ShoppingCartGUI extends GenericGUI {
         updateTotalPrice();
     }
 
+    private void cleanCSV(String csvFilePath) {
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(csvFilePath))) {
+            bw.write("Product Name,Quantity");
+            bw.newLine();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void addProductToCSV(String csvFilePath, String productName, int quantity) {
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(csvFilePath, true))) {
+            bw.write(productName + "," + quantity);
+            bw.newLine();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void updateCSV(String csvFilePath, String productName, int newQuantity) {
+        List<String[]> csvData = new ArrayList<>();
+        try (BufferedReader br = new BufferedReader(new FileReader(csvFilePath))) {
+            String line;
+            while ((line = br.readLine()) != null) {
+                csvData.add(line.split(","));
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        try (BufferedWriter bw = new BufferedWriter(new FileWriter(csvFilePath))) {
+            for (String[] row : csvData) {
+                if (row[0].trim().equalsIgnoreCase(productName)) {
+                    if (newQuantity > 0) {
+                        row[1] = String.valueOf(newQuantity);
+                    } else {
+                        continue; // Skip writing this row to effectively delete it
+                    }
+                }
+                bw.write(String.join(",", row));
+                bw.newLine();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void loadListFromCSV(String csvFilePath) {
+        List<String[]> csvData = new ArrayList<>();
+        try (BufferedReader br = new BufferedReader(new FileReader(csvFilePath))) {
+            String line;
+            br.readLine(); // Skip the header line
+            while ((line = br.readLine()) != null) {
+                String[] values = line.split(",");
+                csvData.add(values);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        for (String[] values : csvData) {
+            String productName = values[0].trim();
+            int quantity = Integer.parseInt(values[1].trim());
+            Optional<Product> productOpt = GlobalVariables.allproducts.stream()
+                .filter(p -> p.getName().equalsIgnoreCase(productName))
+                .findFirst();
+            if (productOpt.isPresent()) {
+                selectedProducts.add(productOpt.get());
+                quantities.add(quantity);
+            } else {
+                System.err.println("Product not found in global list: " + productName);
+            }
+        }
+    }
+    
     @Override
     public void show() {
         System.out.println("Showing ShoppingCartGUI...");
@@ -157,6 +256,7 @@ public class ShoppingCartGUI extends GenericGUI {
             int index = selectedProducts.indexOf(product);
             quantities.set(index, qty);
             updateTotalPrice();
+            updateCSV(GlobalVariables.SHOP_LIST, product.getName(), qty);
         });
 
         // Minus button action listener
@@ -174,6 +274,7 @@ public class ShoppingCartGUI extends GenericGUI {
                     mainPanel.revalidate();
                     mainPanel.repaint();
                 }
+                updateCSV(GlobalVariables.SHOP_LIST, product.getName(), qty);
                 updateTotalPrice();
             }
         });
@@ -215,21 +316,53 @@ public class ShoppingCartGUI extends GenericGUI {
                     JPanel productPanel = productSubPanels.get(index);
                     JLabel quantityLabel = (JLabel) ((JPanel) productPanel.getComponent(1)).getComponent(0);
                     quantityLabel.setText(String.valueOf(currentQuantity + 1));
+                    updateCSV(GlobalVariables.SHOP_LIST, product.getName(), currentQuantity + 1);
                 } else {
-                    // Product not in the list, add new panel
+                    // Product not in the list, add new panel and update CSV
                     selectedProducts.add(product);
                     quantities.add(1);
                     JPanel productPanel = createProductPanel(product, 1);
                     productSubPanels.add(productPanel);
                     mainPanel.add(productPanel);
-                    RefrigeratorApp refrigeratorApp = (RefrigeratorApp) GlobalVariables.guis.get(AppInterface.GUIType.REFRIGERATOR.ordinal());
-                    refrigeratorApp.addProduct(product);
+                    addProductToCSV(GlobalVariables.SHOP_LIST, product.getName(), 1);
                 }
                 mainPanel.revalidate();
                 mainPanel.repaint();
                 updateTotalPrice();
             }
         }
+    }
+
+    private void cleanShoppingCart() {
+        // Clear arrays
+        selectedProducts.clear();
+        quantities.clear();
+        productSubPanels.clear();
+        mainPanel.removeAll();
+        mainPanel.revalidate();
+        mainPanel.repaint();
+
+        // Clean the CSV file
+        cleanCSV(GlobalVariables.SHOP_LIST);
+
+        // Update total price
+        updateTotalPrice();
+    }
+
+    private void buyAllProducts() {
+        for (int i = 0; i < selectedProducts.size(); i++) {
+            Product product = selectedProducts.get(i);
+            int quantity = quantities.get(i);
+            for (int j = 0; j < quantity; j++) {
+                Product pr = new Product(product.getName(),product.getNutrientValues(), GlobalVariables.date.addDays(product.getvalid_Days()),product.getQuantity_sold(), product.getMeasurementUnit(), product.getImgPath(), product.getCategory());
+                GlobalVariables.RefrigeratorProducts.add(pr);
+            }
+        }
+        ((RefrigeratorApp) GlobalVariables.guis.get(AppInterface.GUIType.REFRIGERATOR.ordinal())).saveProductsToCSV(GlobalVariables.PRODUCT_IN_REFRIGERETOR);
+        ((RefrigeratorApp) GlobalVariables.guis.get(AppInterface.GUIType.REFRIGERATOR.ordinal())).refreshMainPanel();
+        
+        // After buying all, clear the shopping cart
+        cleanShoppingCart();
     }
 
     private void updateTotalPrice() {

@@ -5,6 +5,7 @@ public class GlobalVariables {
     public static Date date = new Date(15, 10, 2024); // Global date variable
     public static final String PRODUCT_IN_REFRIGERETOR = "refrigerator\\productsInRefrigeretor.csv"; // CSV file path
     public static final String INGREDIENTS = "refrigerator\\ingredients.csv"; // CSV file path
+    public static final String SHOP_LIST = "refrigerator\\ShoppingCart.csv";
     public static List<Product> allproducts = new ArrayList<>(); // Global products list
     public static List<Product> RefrigeratorProducts = new ArrayList<>(); // Global products in refrigerator
     public static List<GenericGUI> guis = new ArrayList<>();

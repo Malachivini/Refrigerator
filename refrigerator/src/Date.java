@@ -122,4 +122,22 @@ public class Date {
 
         return new Date(nextDay, nextMonth, nextYear);
     }
+
+    // Method to add a specified number of days to the current date
+    public Date addDays(int days) {
+
+        Date tempDate = new Date(day, month, year);
+        int[] daysInMonth = {31, (isLeapYear(tempDate.year) ? 29 : 28), 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
+        tempDate.day += days;
+        while (tempDate.day > daysInMonth[tempDate.month - 1]) {
+            tempDate.day -= daysInMonth[tempDate.month - 1];
+            tempDate.month++;
+            if (tempDate.month > 12) {
+                tempDate.month = 1;
+                tempDate.year++;
+                daysInMonth[1] = isLeapYear(tempDate.year) ? 29 : 28; // Update February days for the new year
+            }
+        }
+        return tempDate;
+    }
 }

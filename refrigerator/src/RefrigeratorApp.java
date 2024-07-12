@@ -345,7 +345,7 @@ public class RefrigeratorApp extends GenericGUI {
     }
 
     // Method to save products to a CSV file
-    private void saveProductsToCSV(String filePath) {
+    public void saveProductsToCSV(String filePath) {
         try (PrintWriter writer = new PrintWriter(new FileWriter(filePath))) {
             writer.println("Name,Expiration Date,Amount"); // Header
             for (Product product : GlobalVariables.RefrigeratorProducts) {
@@ -591,7 +591,7 @@ public class RefrigeratorApp extends GenericGUI {
     }
 
     // Method to refresh the main panel with updated product information
-    private void refreshMainPanel() {
+    public void refreshMainPanel() {
         mainPanel.removeAll(); // Remove all existing components from the main panel
 
         // Add category panels to the main panel
