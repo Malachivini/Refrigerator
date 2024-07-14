@@ -223,6 +223,7 @@ public class RefrigeratorApp extends GenericGUI {
         refreshConsumableProducts(); // Refresh consumable products
         refreshMainPanel(); // Initial refresh to display products
     }
+
     @Override
     public void show() {
         frame.setVisible(true);
@@ -594,6 +595,9 @@ public class RefrigeratorApp extends GenericGUI {
     public void refreshMainPanel() {
         mainPanel.removeAll(); // Remove all existing components from the main panel
 
+        // איחוד מוצרים זהים עם אותו תאריך תפוגה
+        mergeIdenticalProductsWithSameExpiration();
+
         // Add category panels to the main panel
         mainPanel.add(createCategoryPanel("Meat"));
         mainPanel.add(createCategoryPanel("Dairy"));
@@ -632,7 +636,25 @@ public class RefrigeratorApp extends GenericGUI {
             consumableProductsComboBox.addItem("No products less");
         }
     }
-    
+
+    // Method to merge identical products with the same expiration date
+    private void mergeIdenticalProductsWithSameExpiration() {
+        Map<String, Product> productMap = new HashMap<>();
+
+        Iterator<Product> iterator = GlobalVariables.RefrigeratorProducts.iterator();
+        while (iterator.hasNext()) {
+            Product currentProduct = iterator.next();
+            String key = currentProduct.getName() + "-" + currentProduct.getExpiration().toString();
+
+            if (productMap.containsKey(key)) {
+                Product existingProduct = productMap.get(key);
+                existingProduct.setAmount(existingProduct.getAmount() + currentProduct.getAmount());
+                iterator.remove(); // Remove the current product from the list
+            } else {
+                productMap.put(key, currentProduct);
+            }
+        }
+    }
 
     // Method to update the refrigerator temperature
     private void updateRefrigeratorTemp(int change) {
