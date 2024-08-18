@@ -1,41 +1,41 @@
 Name,Expiration Date,Amount
 Almond Milk,17.10.2024,200.0
-Apple Juice,17.10.2024,200.0
+Apple Juice,17.12.2024,200.0
 Apricots,17.10.2024,200.0
 Artichoke,17.10.2024,250.0
 Asparagus,17.10.2024,250.0
 Avocado,17.10.2024,2.0
-Baking Powder,17.10.2024,250.0
-Baking Soda,17.10.2024,250.0
+Baking Powder,17.10.2025,250.0
+Baking Soda,17.10.2025,250.0
 Balsamic Vinegar,17.10.2024,250.0
 Banana,20.10.2024,5.0
 Bay Leaves,17.10.2024,1250.0
 Beef Steak,17.10.2024,800.0
 Bell Pepper,17.10.2024,4.0
 Black Beans,17.10.2024,1000.0
-Black Pepper,17.10.2024,250.0
+Black Pepper,17.12.2024,250.0
 Blue Cheese,17.10.2024,250.0
 Blueberries,17.10.2024,200.0
 Brie Cheese,17.10.2024,250.0
 Broccoli,17.10.2024,3.0
-Brown Rice,17.10.2024,200.0
-Brown Sugar,17.10.2024,250.0
+Brown Rice,17.11.2024,200.0
+Brown Sugar,17.12.2024,250.0
 Bulgur,17.10.2024,400.0
-Butter,18.10.2024,40.0
-Canola Oil,17.10.2024,250.0
+Butter,18.10.2024,30.0
+Canola Oil,10.6.2025,250.0
 Cantaloupe,17.10.2024,250.0
 Carrot,17.10.2024,10.0
 Cashews,17.10.2024,250.0
 Celery,17.10.2024,1.0
 Cheddar Cheese,17.10.2024,400.0
 Cherries,17.10.2024,10.0
-Chia Seeds,17.10.2024,200.0
+Chia Seeds,11.4.2025,200.0
 Chicken Breast,20.10.2024,1200.0
 Chicken Drumsticks,17.10.2024,200.0
 Chicken Thighs,17.10.2024,200.0
-Cinnamon,17.10.2024,1250.0
+Cinnamon,17.10.2025,1250.0
 Clotted Cream,17.10.2024,250.0
-Coca Cola,17.10.2024,200.0
+Coca Cola,15.10.2025,200.0
 Cocoa Powder,17.10.2024,250.0
 Coconut Milk,17.10.2024,200.0
 Coffee,17.10.2024,200.0
@@ -46,7 +46,7 @@ Cream Cheese,17.10.2024,250.0
 Creme Fraiche,17.10.2024,250.0
 Cucumber,17.10.2024,7.0
 Cumin,17.10.2024,250.0
-Dark Chocolate,17.10.2024,200.0
+Dark Chocolate,12.12.2024,200.0
 Denis,17.10.2024,900.0
 Dried Figs,17.10.2024,250.0
 Duck Breast,17.10.2024,1100.0
@@ -55,26 +55,26 @@ Egg,20.10.2024,12.0
 Entrecote,17.10.2024,200.0
 Feta Cheese,17.10.2024,200.0
 Fig,17.10.2024,250.0
-Flour,17.10.2024,250.0
-Fuze Tea,17.10.2024,200.0
+Flour,20.12.2024,250.0
+Fuze Tea,15.12.2025,200.0
 Garlic,17.10.2024,250.0
 Ginger,17.10.2024,250.0
 Goat Cheese,17.10.2024,250.0
 Gouda,17.10.2024,250.0
-Granola,17.10.2024,200.0
+Granola,17.11.2024,200.0
 Grapes,17.10.2024,15.0
 Greek Yogurt,17.10.2024,250.0
 Green Beans,17.10.2024,500.0
 Ground Beef,17.10.2024,200.0
 Hazelnuts,17.10.2024,250.0
-Honey,17.10.2024,250.0
+Honey,15.10.2025,250.0
 Hot Paprika,17.10.2024,250.0
 Ice Cream,17.10.2024,250.0
 Kale,17.10.2024,200.0
 Kiwi,17.10.2024,250.0
 Lamb Chop,17.10.2024,250.0
 Lamb Shank,17.10.2024,250.0
-Lemon Juice,17.10.2024,250.0
+Lemon Juice,10.10.2025,250.0
 Lentils,17.10.2024,250.0
 Lettuce,17.10.2024,5.0
 Liver,17.10.2024,1250.0
@@ -157,6 +157,6 @@ Peanut Butter,18.10.2024,600.0
 Pistachios,18.10.2024,100.0
 Sour Cream,22.10.2024,400.0
 Apple,18.10.2024,10.0
-Apple,19.10.2024,1.0
-Apple,19.10.2024,1.0
-Apple,19.10.2024,1.0
+Apple,19.10.2024,3.0
+Egg,18.10.2024,36.0
+Banana,18.10.2024,1.0

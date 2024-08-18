@@ -274,11 +274,6 @@ public class ShoppingCartGUI extends GenericGUI {
         frame.dispose();
     }
 
-    @Override
-    public void save() {
-        // Save functionality to be implemented later
-    }
-
     private JPanel createProductPanel(Product product, int quantity) {
         JPanel productPanel = new JPanel();
         productPanel.setLayout(new BorderLayout());
@@ -481,10 +476,5 @@ public class ShoppingCartGUI extends GenericGUI {
         frame.setVisible(false);
     }
 
-    public static void main(String[] args) {
-        ShoppingCartGUI gui = new ShoppingCartGUI("Shopping Cart", 400, 600); // Pass null for MainMenu in standalone mode
-        gui.load();
-        gui.show();
-    }
 }
 

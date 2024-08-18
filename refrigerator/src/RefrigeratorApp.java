@@ -234,11 +234,6 @@ public class RefrigeratorApp extends GenericGUI {
         frame.dispose();
     }
 
-    @Override
-    public void save() {
-        // Implement the save method
-    }
-
     // Method to load temperatures from CSV file
     private void loadTemperaturesFromCSV(String filePath) {
         try (BufferedReader br = new BufferedReader(new FileReader(filePath))) {
@@ -595,7 +590,7 @@ public class RefrigeratorApp extends GenericGUI {
     public void refreshMainPanel() {
         mainPanel.removeAll(); // Remove all existing components from the main panel
 
-        // איחוד מוצרים זהים עם אותו תאריך תפוגה
+        // Identical consolidation products with the same expiration date
         mergeIdenticalProductsWithSameExpiration();
 
         // Add category panels to the main panel

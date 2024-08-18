@@ -18,5 +18,4 @@ public abstract class GenericGUI {
     public abstract void load();
     public abstract void show();
     public abstract void close();
-    public abstract void save();
 }

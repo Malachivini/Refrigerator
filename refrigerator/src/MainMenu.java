@@ -95,7 +95,8 @@ public class MainMenu extends GenericGUI {
     }
 
     private void openRecipesScreen() {
-        JOptionPane.showMessageDialog(frame, "Recipes Screen (to be implemented)");
+        GlobalVariables.guis.get(AppInterface.GUIType.RECEPIES.ordinal()).show();
+        frame.setVisible(false);
     }
 
     private class BackgroundPanel extends JPanel {
@@ -172,16 +173,5 @@ public class MainMenu extends GenericGUI {
     @Override
     public void close() {
         frame.dispose();
-    }
-
-    @Override
-    public void save() {
-    }
-
-    public static void main(String[] args) {
-        AppInterface app = new ApplicationImpl(); // Use ApplicationImpl instead of Application
-        MainMenu mainMenu = new MainMenu(app);
-        mainMenu.load();
-        mainMenu.show();
     }
 }

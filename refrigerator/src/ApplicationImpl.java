@@ -9,7 +9,7 @@ public class ApplicationImpl implements AppInterface {
         GlobalVariables.guis.add(mainMenu); // Add MainMenu instance
         GlobalVariables.guis.add(new RefrigeratorApp(new HashMap<>(), new HashMap<>(), GlobalVariables.date)); // Add RefrigeratorApp instance with MainMenu as parameter
         GlobalVariables.guis.add(new ShoppingCartGUI("Shopping Cart", 500, 600)); // Pass mainMenu reference
-
+        GlobalVariables.guis.add(new RecipesGUI("Recipes", 500, 600));
     }
 
     // Method to load all GUI instances
