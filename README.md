@@ -46,7 +46,7 @@ This project is a comprehensive food management system designed to help you effi
 2. **Manage Your Refrigerator**:
    - Navigate to the refrigerator section to view all current ingredients and their expiration dates.
    - Remove any expired items by selecting them and choosing the "Discard Expired" option.
-   - If you use an ingredient, update in it how much of it you've used, to keep your inventory up to date.
+   - When you use an ingredient, update how much of it you've used to keep your inventory up to date.
 
 3. **Shop for Groceries**:
    - Head to the shopping cart section to search for products you need.
@@ -54,9 +54,8 @@ This project is a comprehensive food management system designed to help you effi
    - Once you have everything you need, proceed to purchase the items. They will be automatically added to your refrigerator.
 
 4. **Plan Your Meals**:
-   - Go to the recipes section to browse available recipes.
-   - Check the list of ingredients required for each recipe. If any ingredients are missing, you can add them directly to your shopping cart from this screen.
-   - Use the ingredients you have on hand to prepare your meals.
+   - Option 1: Go to the recipes section to browse available recipes. Use the ingredients you have on hand to prepare your meals.
+   - Option 2: Go to all the recipes, select the recipe you desire to prepare, and view its ingredients. If any ingredients are missing, you can add them directly to your shopping cart from this screen.
 
 5. **Maintain Your supply**:
    - Regularly check the refrigerator section to ensure you are using ingredients before they expire.
@@ -79,7 +78,6 @@ This project is a comprehensive food management system designed to help you effi
 ## Future Enhancements
 
 - **Add Barcode Scanner**: Integrate a barcode scanner to quickly add products to the refrigerator.
-- **Recipe Suggestions**: Implement a feature that suggests recipes based on the current ingredients in the refrigerator and their expiration date.
 - **Nutritional Information**: Display nutritional information for each product and recipe.
 
 ## Credits
