@@ -61,7 +61,7 @@ This project is a comprehensive food management system designed to help you effi
 
 1. **Clone the Repository**:
    ```bash
-   git clone <repository-url>
+   git clone [<repository-url>](https://github.com/Malachivini/Refrigerator)
    ```
 
 2. **Compile the Project**:
@@ -69,20 +69,12 @@ This project is a comprehensive food management system designed to help you effi
 - Compile the project using your preferred Java IDE or via the command line.
 
 3. **Run the Application**:
-- Execute the `RefrigeratorApp` main class to start the application.
+- Execute the `RefrigeratorApp` from the `ApplicationImpl.java` file to start the application.
 
 ## Future Enhancements
 
 - **Add Barcode Scanner**: Integrate a barcode scanner to quickly add products to the refrigerator.
-- **Recipe Suggestions**: Implement a feature that suggests recipes based on the current ingredients in the refrigerator.
+- **Recipe Suggestions**: Implement a feature that suggests recipes based on the current ingredients in the refrigerator and their expiration date.
 - **Nutritional Information**: Display nutritional information for each product and recipe.
 
-## Screenshots
-- Place screenshots in the appropriate sections above to visually demonstrate how to use each part of the application.
-
-## Contributing
-If you would like to contribute to this project, please fork the repository and submit a pull request. Contributions are welcome!
-
-## License
-This project is licensed under the MIT License. See the LICENSE file for more details.
 
