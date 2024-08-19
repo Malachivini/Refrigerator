@@ -29,7 +29,8 @@ This project is a comprehensive food management system designed to help you effi
 
 
 ### Recipes
-- **View Recipes**: Browse through a list of available recipes.
+- **View Recipes**: Browse through a list of available recipes or all recipes.
+- **Add Recipes**: Add your favorite recipes (format: Recipe's name, Product Quantity, Product Quantity, etc).
 - **Check Ingredients**: See which ingredients are missing for each recipe.
 - **Add Missing Ingredients to Cart**: Quickly add missing ingredients to your shopping cart.
 
