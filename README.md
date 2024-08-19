@@ -40,8 +40,8 @@ This project is a comprehensive food management system designed to help you effi
   
 2. **Manage Your Refrigerator**:
    - Navigate to the refrigerator section to view all current ingredients and their expiration dates.
-   - Remove any expired items by selecting them and choosing the "Remove" option.
-   - If you use an ingredient, mark it as "Used" to keep your inventory up to date.
+   - Remove any expired items by selecting them and choosing the "Discard Expired" option.
+   - If you use an ingredient, update in it how much of it you've used, to keep your inventory up to date.
 
 3. **Shop for Groceries**:
    - Head to the shopping cart section to search for products you need.
@@ -53,7 +53,7 @@ This project is a comprehensive food management system designed to help you effi
    - Check the list of ingredients required for each recipe. If any ingredients are missing, you can add them directly to your shopping cart from this screen.
    - Use the ingredients you have on hand to prepare your meals.
 
-5. **Maintain Your Stock**:
+5. **Maintain Your supply**:
    - Regularly check the refrigerator section to ensure you are using ingredients before they expire.
    - Keep your shopping cart updated with necessary items to prevent running out of key ingredients.
 
