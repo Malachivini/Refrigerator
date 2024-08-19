@@ -15,23 +15,27 @@ This project is a comprehensive food management system designed to help you effi
 - **Remove Expired Products**: Easily remove products that have expired.
 - **Use Ingredients**: Mark ingredients as used when preparing meals.
 
-  - ![WhatsApp Image 2024-08-19 at 09 20 31](https://github.com/user-attachments/assets/218e62ef-73fe-4baf-b73c-a4a1f0a996e5)hot1.png)
+  - ![WhatsApp Image 2024-08-19 at 09 20 31](https://github.com/user-attachments/assets/218e62ef-73fe-4baf-b73c-a4a1f0a996e5)
 
 ### Shopping Cart
 - **Search Products**: Search for products by name.
 - **Add to Cart**: Add desired products to your shopping cart.
 - **Purchase Products**: Finalize your purchase, which will automatically add the products to your refrigerator.
 
-  _**Screenshots Placeholder:**_
-  - ![Shopping Cart Interface](path/to/screenshot2.png)
+ 
+  - ![WhatsApp Image 2024-08-19 at 09 21 02](https://github.com/user-attachments/assets/c1539f15-1a64-4fb1-81b3-4f9f04fd4a07)
+
 
 ### Recipes
 - **View Recipes**: Browse through a list of available recipes.
 - **Check Ingredients**: See which ingredients are missing for each recipe.
 - **Add Missing Ingredients to Cart**: Quickly add missing ingredients to your shopping cart.
 
-  _**Screenshots Placeholder:**_
-  - ![Recipes Interface](path/to/screenshot3.png)
+  
+  - ![WhatsApp Image 2024-08-19 at 09 21 21](https://github.com/user-attachments/assets/84e487f3-e528-423e-82f9-7f7eae9a2c61)
+  - ![WhatsApp Image 2024-08-19 at 09 24 44](https://github.com/user-attachments/assets/254dd6bf-a49f-4f34-b123-2dc2bcdf5882)
+
+
 
 ## How to Use
 
