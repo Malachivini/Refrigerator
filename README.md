@@ -45,7 +45,7 @@ This project is a comprehensive food management system designed to help you effi
   
 2. **Manage Your Refrigerator**:
    - Navigate to the refrigerator section to view all current ingredients and their expiration dates.
-   - Remove any expired items by selecting them and choosing the "Discard Expired" option.
+   - Remove any expired items by choosing the "Discard Expired" option.
    - When you use an ingredient, update how much of it you've used to keep your inventory up to date.
 
 3. **Shop for Groceries**:
