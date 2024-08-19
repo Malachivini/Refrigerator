@@ -1,5 +1,7 @@
 # Food Management System
 
+youtube video: https://www.youtube.com/watch?v=FkejUZecXXs
+
 ## Overview
 
 This project is a comprehensive food management system designed to help you efficiently manage the ingredients in your refrigerator, track expiration dates, shop for groceries, and plan meals using recipes. The application is divided into three main sections:
