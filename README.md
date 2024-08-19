@@ -80,4 +80,9 @@ This project is a comprehensive food management system designed to help you effi
 - **Recipe Suggestions**: Implement a feature that suggests recipes based on the current ingredients in the refrigerator and their expiration date.
 - **Nutritional Information**: Display nutritional information for each product and recipe.
 
-
+## Credits
+This project created by:
+- Yuval Harari
+- Paz Snapir
+- Rotem Danino
+- Malachi Vinizky
