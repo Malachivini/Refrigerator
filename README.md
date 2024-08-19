@@ -64,7 +64,7 @@ This project is a comprehensive food management system designed to help you effi
 
 1. **Clone the Repository**:
    ```bash
-   git clone [<repository-url>](https://github.com/Malachivini/Refrigerator)
+   git clone https://github.com/Malachivini/Refrigerator
    ```
 
 2. **Compile the Project**:
